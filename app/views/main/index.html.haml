@@ -1,6 +1,12 @@
 %h1 Main page. Welcome!
 
-%p
-  = link_to "Connect 4Square", "/auth/foursquare"
-#map_container
-  #map_canvas
+- if current_user
+  %p
+    - if current_user.has_account?(:foursquare)
+      Your 4Square account:
+      = current_user.account(:foursquare).uid
+    - else
+      = link_to "Connect 4Square", "/auth/foursquare"
+
+  #map_container
+    #map_canvas

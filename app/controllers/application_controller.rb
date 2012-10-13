@@ -4,7 +4,9 @@ class ApplicationController < ActionController::Base
   private
 
   def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    # TODO Uncomment this and remove User.first when Facebook sign in complete
+    # @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    User.first
   end
   helper_method :current_user
 
