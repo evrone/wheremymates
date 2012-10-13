@@ -6,11 +6,15 @@
     = link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
     to help us update your location while you are offline.
 
-- if current_team.users.many?
+- if current_team.users.many? || true
   .well.sidebar-nav
     %ul.nav.nav-list
       - current_team.users.find_each do |user|
-        %li= user.name
+        %li
+          %strong= user.name
+          - if user.country?
+            = "(#{user.country})"
+
 - else
   .alert
     %button(type="button" class="close" data-dismiss="alert") x
