@@ -10,6 +10,7 @@ class Gmap
     @renderMe()
     @fitBounds()
     @detectUser() if window.request_geo
+    @renderInfo()
 
   renderMap: ->
     myOptions =
@@ -29,31 +30,56 @@ class Gmap
     if mate.id == @me.id
       @me.in_team = mate
     else if mate.latitude && mate.longitude
-      geo = new google.maps.LatLng(mate.latitude, mate.longitude)
+      mate.geo = new google.maps.LatLng(mate.latitude, mate.longitude)
       mate.marker = new google.maps.Marker
-        position: geo
+        position: mate.geo
         map: @map
         title: mate.name
         icon: @marker_image
-      @bounds.extend(geo)
+      @bounds.extend(mate.geo)
       @bindMate(mate)
 
   renderMe: ->
     if @me.latitude && @me.longitude
-      geo = new google.maps.LatLng(@me.latitude, @me.longitude)
+      @me.geo = new google.maps.LatLng(@me.latitude, @me.longitude)
       if @me.marker
-        @me.marker.setPosition(geo)
+        @me.marker.setPosition(@me.geo)
       else
         @me.marker = new google.maps.Marker
-          position: geo
+          position: @me.geo
           map: @map
           title: @me.name
           icon: if @me.in_team then @my_marker_image else null
         if @me.in_team
           @me.in_team.marker = @me.marker
+          @me.in_team.geo = @me.geo
           @bindMate(@me.in_team)
-      @bounds.extend(geo)
+      @bounds.extend(@me.geo)
 
+  renderInfo: ->
+    geocoder = new google.maps.Geocoder()
+    for mate in @mates
+      if mate.latitude && mate.longitude
+        elem = mate.elem
+        if mate.id == @me.id
+        else
+          geocoder.geocode {location: mate.geo}, @renderPlace.bind(elem)
+
+  renderPlace: (results, status) ->
+    checkPlace = (address) ->
+      places_list = ['country', 'administrative_area_level_1',
+                     'administrative_area_level_2', 'administrative_area_level_3']
+      for component in address
+        for ctype in component.types
+          return component.short_name if places_list.indexOf(ctype)!=-1
+
+    if status == google.maps.GeocoderStatus.OK
+      place = checkPlace(results[0].address_components)
+      if place?
+        this.append "(" + place + ")"
+
+
+  # ============ #
   detectUser: ->
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition (position) =>
