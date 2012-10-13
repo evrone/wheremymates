@@ -1,3 +1,10 @@
+- unless current_user.has_account?(:foursquare)
+  = content_for :top do
+    .alert
+      %button(type="button" class="close" data-dismiss="alert") x
+      = link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
+      to help us update your location while you are offline.
+
 %h1= current_team.name
 
 #map_container
