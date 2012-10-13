@@ -11,11 +11,17 @@
       = link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
       to help us update your location while you are offline.
 
-  .well.sidebar-nav
-    %ul.nav.nav-list
-      %li.nav-header Mates
-      - current_team.users.find_each do |user|
-        %li= user.name
+  - if current_team.users.many?
+    .well.sidebar-nav
+      %ul.nav.nav-list
+        - current_team.users.find_each do |user|
+          %li= user.name
+  - else
+    .alert
+      %button(type="button" class="close" data-dismiss="alert") x
+      Now
+      = invite_link("invite")
+      other members of your team to see tham on the map.
 
 :javascript
   window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}

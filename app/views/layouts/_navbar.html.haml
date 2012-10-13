@@ -19,8 +19,7 @@
                 = form.text_field :name
                 = form.submit 'ok'
 
-            %li= mail_to "enter_real_email_@_please", "Invite member!",
-              :subject => 'Invitation to wheremymates.com', :body => signin_url(:invitation_key => my_team.invitation_key)
+            %li= invite_link("Invite member!")
           - else
             %li
               = link_to_function "Create Your Team!", "$(this).parents('ul').find('li.create_my_team').toggleClass('hide')"
