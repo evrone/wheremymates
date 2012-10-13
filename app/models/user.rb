@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
     create! do |user|
       user.uid = auth["uid"]
       user.name = auth["info"]["name"].presence || auth["info"]["nickname"]
-      user.team = Team.first  # TODO: fix stub
     end
   end
 
