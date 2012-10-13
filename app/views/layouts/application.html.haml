@@ -24,11 +24,19 @@
 
       .row-fluid
         .span3
+          - if current_team
+            .well.sidebar-nav
+              %ul.nav.nav-list
+                %li.nav-header Current Team: #{current_team.name}
+                %li.nav-header Members:
+                - current_team.users.find_each do |user|
+                  %li= user.name
+
           .well.sidebar-nav
             %ul.nav.nav-list
               %li.nav-header Teams
               - Team.find_each do |team|
-                %li= team.name
+                %li= link_to team.name, :team_id => team.id
 
           - if current_user
             .well.sidebar-nav
