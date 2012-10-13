@@ -5,4 +5,8 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    = yield
+    %div
+      - if current_user
+        %p Hi, #{current_user.email}
+    %div
+      = yield
