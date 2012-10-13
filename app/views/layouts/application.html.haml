@@ -23,8 +23,10 @@
     .container-fluid
 
       .row-fluid
-        = yield :top
+        .span12
+          = yield :top
 
+      .row-fluid
         .span9
           = yield
         .span3
