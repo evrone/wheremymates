@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_many :accounts, dependent: :destroy
 
   attr_accessible :email, :latitude, :longitude
+  # , :city, :country
 
   def self.from_omniauth(auth)
     where(auth.slice("uid")).first || create_from_omniauth(auth)
@@ -20,5 +21,12 @@ class User < ActiveRecord::Base
 
   def account(provider)
     accounts.where(provider: provider).first
+  end
+
+  def update_location
+    if accounts.any?
+      location = accounts.first.get_location
+      update_attributes!(location)
+    end
   end
 end
