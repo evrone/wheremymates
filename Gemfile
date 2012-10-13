@@ -35,4 +35,5 @@ end
 
 group :development do
   gem 'capistrano-mountaintop'
+  gem 'dev_must_have', github: 'evrone/dev_must_have'
 end
