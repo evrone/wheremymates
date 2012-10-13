@@ -5,7 +5,7 @@
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
-      %a.brand(href="#") WhereMyMates
+      = link_to "WhereMyMates", root_path, :class => 'brand'
       .container.nav-collapse
         %ul.nav
           - if current_user && current_user.team
