@@ -16,7 +16,7 @@ class Gmap
       minZoom: 2
       maxZoom: 18
       zoom: 6
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.TERRAIN
     new google.maps.Map document.getElementById("map_canvas"), myOptions
 
   fitBounds: ->
