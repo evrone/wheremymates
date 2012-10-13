@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20121013175106) do
     t.string   "token",      :null => false
   end
 
+  add_index "accounts", ["provider"], :name => "index_accounts_on_provider"
   add_index "accounts", ["user_id"], :name => "index_accounts_on_user_id"
 
   create_table "teams", :force => true do |t|

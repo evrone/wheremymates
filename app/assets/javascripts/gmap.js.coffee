@@ -36,6 +36,7 @@ class Gmap
         title: mate.name
         icon: @marker_image
       @bounds.extend(geo)
+      @bindMate(mate)
 
   renderMe: ->
     if @me.latitude && @me.longitude
@@ -48,7 +49,9 @@ class Gmap
           map: @map
           title: @me.name
           icon: if @me.in_team then @my_marker_image else null
-        @me.in_team.marker = @me.marker if @me.in_team
+        if @me.in_team
+          @me.in_team.marker = @me.marker
+          @bindMate(@me.in_team)
       @bounds.extend(geo)
 
   detectUser: ->
@@ -77,6 +80,25 @@ class Gmap
   handleNoGeolocation: ->
     #@map.setCenter new google.maps.LatLng(-34.397, 150.644)
     false
+
+  # ============ #
+
+  bindMate: (mate) ->
+    elem = $('.team_user[data-id=' + mate.id + ']')
+    mate.elem = elem
+    elem.data(mate: mate)
+    elem.addClass('present')
+    elem.click ->
+      marker = mate.marker
+      marker.setAnimation(google.maps.Animation.BOUNCE)
+      setTimeout ->
+        marker.setAnimation(null)
+      , 700
+    google.maps.event.addListener mate.marker, 'mouseover', ->
+      elem.addClass('highlight')
+    google.maps.event.addListener mate.marker, 'mouseout', ->
+      elem.removeClass('highlight')
+
 
 $ ->
   if $('#map_canvas').length > 0 && google?

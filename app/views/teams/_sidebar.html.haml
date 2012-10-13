@@ -8,9 +8,10 @@
 
 - if current_team.users.many? || true
   .well.sidebar-nav
-    %ul.nav.nav-list
+    %ul.nav.nav-list.current_team
       - current_team.users.find_each do |user|
-        %li
+        %li.team_user{:data => {:id => user.id}}
+          %i.icon-user
           %strong= user.name
           - if user.country?
             = "(#{user.country})"
