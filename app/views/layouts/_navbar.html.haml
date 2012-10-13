@@ -8,8 +8,11 @@
       = link_to "WhereMyMates", root_path, :class => 'brand'
       .container.nav-collapse
         %ul.nav
-          - if current_user && current_user.team
-            %li= link_to "(#{current_user.team.name})", root_path(:team_id => current_user.team.id)
+          - my_team = current_user.team if current_user
+          - if my_team
+            %li= link_to "My Team: #{my_team.name}", root_path(:team_id => my_team.id)
+            %li= mail_to "enter_real_email_@_please", "Invite member!",
+              :subject => 'Invitation letter to wheremymates.com', :body => signin_url(:invitation_key => my_team.invitation_key)
         - if current_user
           %ul.nav.pull-right
             %li.dropdown
