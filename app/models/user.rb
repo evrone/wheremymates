@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  attr_accessible :latitude, :longitude, :team, :name
+  attr_accessible :latitude, :longitude, :team, :name, :country, :city
   attr_accessible :latitude, :longitude, :location_updated_at, :as => :geo_data
 
   has_many :accounts, dependent: :destroy
@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
       should_replace_location = location_updated_at.nil? || location[:created_at] > location_updated_at
       if should_replace_location
         self.location_updated_at = Time.now
-        update_attributes!(location)
+        update_attributes!(location.slice(:latitude, :longitude, :country, :city))
       end
     end
   end

@@ -28,9 +28,13 @@ class Account < ActiveRecord::Base
     if latest_checkins.try(:items)
       checkin = latest_checkins.items.first
       location = checkin.venue.location
-
-      # city: location.city, country: location.country
-      {latitude: location.lat, longitude: location.lng, created_at: Time.at(checkin.createdAt)}
+      {
+        latitude: location.lat,
+        longitude: location.lng,
+        created_at: Time.at(checkin.createdAt),
+        city: location.city,
+        country: location.country,
+      }
     else
       nil
     end
