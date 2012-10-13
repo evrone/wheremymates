@@ -26,9 +26,9 @@
         .span3
           .well.sidebar-nav
             %ul.nav.nav-list
-              %li.nav-header Users
-              - User.find_each do |user|
-                %li= user.name
+              %li.nav-header Teams
+              - Team.find_each do |team|
+                %li= team.name
 
           - if current_user
             .well.sidebar-nav

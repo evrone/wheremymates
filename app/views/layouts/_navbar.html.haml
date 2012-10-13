@@ -11,7 +11,7 @@
           - if current_user
             %li= link_to current_user.name, "#"
             - if current_user.team
-              %li= link_to "(#{current_user.team.name})", root_path(:current_team_id => current_user.team.id)
+              %li= link_to "(#{current_user.team.name})", :team_id => current_user.team.id
             %li= link_to "Sign out", signout_path
           - else
             %li= link_to "Sign in with Facebook", signin_path(:invitation_key => '727532b08ba5661b07e4')
