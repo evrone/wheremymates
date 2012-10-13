@@ -9,7 +9,9 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_team
-    @current_team ||= Team.find_by_current_team_id(session[:current_team_id]) if session[:current_team_id]
+    # TODO Fix
+    # @current_team ||= Team.find_by_current_team_id(session[:current_team_id]) if session[:current_team_id]
+    @current_team ||= Team.first
   end
   helper_method :current_team
 

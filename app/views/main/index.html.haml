@@ -14,4 +14,4 @@
   :javascript
     window.current_user = #{current_user.to_json}
     window.team = #{current_user.team.to_json}
-    window.team_mates = #{current_user.team.try(:users).to_json}
+    window.team_mates = #{current_team.try(:users).to_json}
