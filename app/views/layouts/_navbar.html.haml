@@ -9,9 +9,15 @@
       .container.nav-collapse
         %ul.nav
           - if current_user
-            %li= link_to current_user.name, "#"
             - if current_user.team
-              %li= link_to "(#{current_user.team.name})", :team_id => current_user.team.id
-            %li= link_to "Sign out", signout_path
+              %li= link_to "(#{current_user.team.name})", root_path(:current_team_id => current_user.team.id)
           - else
             %li= link_to "Sign in with Facebook", signin_path
+        - if current_user
+          %ul.nav.pull-right
+            %li.dropdown
+              %a.dropdown-toggle{ data: { toggle: "dropdown" } }
+                = current_user.name
+                %b.caret
+              %ul.dropdown-menu
+                %li= link_to "Sign out", signout_path
