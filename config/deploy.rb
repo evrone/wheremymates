@@ -106,7 +106,7 @@ at_exit do
   if log.include?("rolling back")
     campfire_room.speak "http://i.imgur.com/XNCA1.png"
   else
-    campfire_room.speak "http://i.imgur.com/oYeMx.png"
+    campfire_room.speak "[capistrano] Deploy success"
   end
 end
 
