@@ -12,22 +12,25 @@ class Gmap
   detectUser: ->
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition (position) =>
-        pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
-        new google.maps.InfoWindow
-          map: @map
-          position: pos
-          content: 'You here!'
-        $.post "/user/update_geo",
-          user:
-            latitude: position.coords.latitude
-            longitude: position.coords.longitude
-        @map.setCenter(pos)
+        @handleGeolocation(position)
       , => @handleNoGeolocation()
     else
       @handleNoGeolocation()
 
+  handleGeolocation: (position)->
+    pos = new google.maps.LatLng(position.coords.latitude,position.coords.longitude)
+    new google.maps.InfoWindow
+      map: @map
+      position: pos
+      content: 'You here!'
+    $.post "/user/update_geo",
+      user:
+        latitude: position.coords.latitude
+        longitude: position.coords.longitude
+    @map.setCenter(pos)
+
+
   handleNoGeolocation: ->
-    alert("Geolocation service failed.")
     @map.setCenter new google.maps.LatLng(-34.397, 150.644)
 
 $ ->
