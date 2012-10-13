@@ -26,8 +26,10 @@ class User < ActiveRecord::Base
   def update_location
     if accounts.any?
       location = accounts.first.get_location
-      self.location_updated_at = Time.now
-      update_attributes!(location)
+      if location[:created_at] > location_updated_at
+        self.location_updated_at = Time.now
+        update_attributes!(location)
+      end
     end
   end
 end

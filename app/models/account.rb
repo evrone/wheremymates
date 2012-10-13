@@ -23,9 +23,12 @@ class Account < ActiveRecord::Base
 
   def get_location
     client = Foursquare2::Client.new(oauth_token: token)
+
     latest_checkins = client.user('self').checkins(limit: 1)
-    location = latest_checkins.items.first.venue.location
+    checkin = latest_checkins.items.first
+    location = checkin.venue.location
+
     # city: location.city, country: location.country
-    {latitude: location.lat, longitude: location.lng}
+    {latitude: location.lat, longitude: location.lng, created_at: Time.at(checkin.createdAt)}
   end
 end
