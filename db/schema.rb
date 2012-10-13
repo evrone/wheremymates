@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20121013091651) do
   add_index "teams", ["invitation_key"], :name => "index_teams_on_invitation_key", :unique => true
 
   create_table "users", :force => true do |t|
-    t.integer  "team_id"
     t.string   "email"
     t.float    "latitude"
     t.float    "longitude"
@@ -43,6 +42,9 @@ ActiveRecord::Schema.define(:version => 20121013091651) do
     t.string   "name"
     t.string   "uid"
     t.datetime "location_updated_at"
+    t.integer  "team_id"
   end
+
+  add_index "users", ["team_id"], :name => "index_users_on_team_id"
 
 end
