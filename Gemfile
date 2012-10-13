@@ -21,7 +21,6 @@ gem 'haml-rails'
 gem 'capistrano'
 gem 'airbrake'
 gem 'foursquare2'
-gem 'gmaps4rails'
 gem 'settingslogic'
 gem 'whenever', :require => false
 gem 'twitter-bootstrap-rails'
