@@ -1,0 +1,23 @@
+%h1 Team page
+
+- if current_user
+  %p
+    - if current_user.has_account?(:foursquare)
+      Your 4Square account:
+      = current_user.account(:foursquare).uid
+    - else
+      = link_to "Connect 4Square", "/auth/foursquare"
+
+  %h3 Map for team: #{current_team.name}
+
+  #map_container
+    #map_canvas
+
+  :javascript
+    window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}
+    window.request_geo = #{request_geo?.to_json}
+
+  - if current_team
+    :javascript
+      window.team = #{current_team.as_json(:only => [:id, :name]).to_json}
+      window.team_mates = #{current_team.users.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}

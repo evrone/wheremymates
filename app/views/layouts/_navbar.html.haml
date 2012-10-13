@@ -10,7 +10,7 @@
         %ul.nav
           - my_team = current_user.team if current_user
           - if my_team
-            %li= link_to "My Team: #{my_team.name}", root_path(:team_id => my_team.id)
+            %li= link_to "My Team: #{my_team.name}", my_team
             %li= mail_to "enter_real_email_@_please", "Invite member!",
               :subject => 'Invitation letter to wheremymates.com', :body => signin_url(:invitation_key => my_team.invitation_key)
         - if current_user
