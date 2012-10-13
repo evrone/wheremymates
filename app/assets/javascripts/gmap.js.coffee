@@ -2,7 +2,7 @@ class Gmap
   constructor: ->
     @marker_image = "http://img.brothersoft.com/icon/softimage/r/ruby-120627.jpeg"
     @map = @renderMap()
-    @mates = if window.team_mates? then window.team_mates else [window.curent_user]
+    @mates = if window.team_mates then window.team_mates else [window.current_user]
     @renderMates()
     @detectUser()
 
@@ -20,7 +20,7 @@ class Gmap
     @map.fitBounds(bounds)
 
   renderMate: (mate, bounds) ->
-    if mate.latitude? && mate.longitude?
+    if mate.latitude && mate.longitude
       geo = new google.maps.LatLng(mate.latitude, mate.longitude)
       mate.marker = new google.maps.Marker
         position: geo

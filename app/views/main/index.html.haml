@@ -12,6 +12,9 @@
     #map_canvas
 
   :javascript
-    window.current_user = #{current_user.to_json}
-    window.team = #{current_team.to_json}
-    window.team_mates = #{current_team.try(:users).to_json}
+    window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}
+
+  - if current_team
+    :javascript
+      window.team = #{current_team.as_json(:only => [:id, :name]).to_json}
+      window.team_mates = #{current_team.users.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}
