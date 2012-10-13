@@ -25,7 +25,7 @@ class Account < ActiveRecord::Base
     client = Foursquare2::Client.new(oauth_token: token)
 
     latest_checkins = client.user('self').checkins(limit: 1)
-    if latest_checkins
+    if latest_checkins.try(:items)
       checkin = latest_checkins.items.first
       location = checkin.venue.location
 
