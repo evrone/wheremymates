@@ -9,7 +9,11 @@
       .container.nav-collapse
         %ul.nav
           - if current_user
-            %li= link_to current_user.name, "/path1"
+            %li= link_to current_user.name, "#"
+            - if current_user.team
+              %li= link_to "(#{current_user.team.name})", root_path(:current_team_id => current_user.team.id)
             %li= link_to "Sign out", signout_path
           - else
+            %li= link_to "Sign in with Facebook", signin_path(:invitation_key => '727532b08ba5661b07e4')
+            -#%li= link_to "Sign in with Facebook", signin_path(:invitation_key => 'f8916f3553c222dc9fb2')
             %li= link_to "Sign in with Facebook", signin_path
