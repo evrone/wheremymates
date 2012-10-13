@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
   attr_accessible :email, :latitude, :longitude
   # , :city, :country
+  attr_accessible :latitude, :longitude, :as => :geo_data
 
   def self.from_omniauth(auth)
     where(auth.slice("uid")).first || create_from_omniauth(auth)

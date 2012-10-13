@@ -17,6 +17,10 @@ class Gmap
           map: @map
           position: pos
           content: 'You here!'
+        $.post "/user/update_geo",
+          user:
+            latitude: position.coords.latitude
+            longitude: position.coords.longitude
         @map.setCenter(pos)
       , => @handleNoGeolocation()
     else
@@ -25,7 +29,6 @@ class Gmap
   handleNoGeolocation: ->
     alert("Geolocation service failed.")
     @map.setCenter new google.maps.LatLng(-34.397, 150.644)
-
 
 $ ->
   if $('#map_canvas').length > 0 && google?
