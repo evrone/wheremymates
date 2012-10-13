@@ -1,29 +1,33 @@
 class Gmap
   constructor: ->
+    @marker_image = "http://img.brothersoft.com/icon/softimage/r/ruby-120627.jpeg"
     @map = @renderMap()
-    @mates = @renderMates()
+    @mates = if window.team_mates? then window.team_mates else [window.curent_user]
+    @renderMates()
     @detectUser()
 
   renderMap: ->
     myOptions =
+      minZoom: 2
+      maxZoom: 18
       zoom: 6
       mapTypeId: google.maps.MapTypeId.ROADMAP
     new google.maps.Map document.getElementById("map_canvas"), myOptions
 
   renderMates: ->
-    if window.team_mates?
-      @renderMate(mate) for mate in window.team_mates
-      window.team_mates
-    else
-      @renderMate(window.curent_user)
-      [window.curent_user]
+    bounds = new google.maps.LatLngBounds()
+    @renderMate(mate, bounds) for mate in @mates
+    @map.fitBounds(bounds)
 
-  renderMate: (mate)->
-    geo = new google.maps.LatLng(mate.latitude, mate.longitude)
-    mate.marker = new google.maps.Marker
-      position: geo
-      map: @map
-      title: mate.name
+  renderMate: (mate, bounds) ->
+    if mate.latitude? && mate.longitude?
+      geo = new google.maps.LatLng(mate.latitude, mate.longitude)
+      mate.marker = new google.maps.Marker
+        position: geo
+        map: @map
+        title: mate.name
+        icon: @marker_image
+      bounds.extend(geo)
 
   detectUser: ->
     if navigator.geolocation
@@ -43,8 +47,6 @@ class Gmap
       user:
         latitude: position.coords.latitude
         longitude: position.coords.longitude
-    @map.setCenter(pos)
-
 
   handleNoGeolocation: ->
     @map.setCenter new google.maps.LatLng(-34.397, 150.644)
