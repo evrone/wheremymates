@@ -41,7 +41,7 @@
             %ul.nav.nav-list
               %li.nav-header Teams
               - Team.find_each do |team|
-                %li= link_to team.name, :team_id => team.id
+                %li= link_to team.name, team
 
       %footer
         %p &copy; Evrone 2012

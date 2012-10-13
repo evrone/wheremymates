@@ -15,11 +15,16 @@ class ApplicationController < ActionController::Base
   end
 
   def current_team
-    @current_team ||= Team.find_by_id(params[:team_id]) if params[:team_id]
-    @current_team ||= current_user.team if current_user
-    @current_team ||= Team.first
+    @current_team
+    #@current_team ||= Team.find_by_id(params[:team_id]) if params[:team_id]
+    #@current_team ||= current_user.team if current_user
+    #@current_team ||= Team.first
   end
   helper_method :current_team
+
+  def set_current_team(team)
+    @current_team = team
+  end
 
   def request_geo?
     session[:geo_saved] ? false : session[:geo_saved] = true

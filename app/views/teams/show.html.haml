@@ -1,11 +1,4 @@
-- unless current_user.has_account?(:foursquare)
-  = content_for :top do
-    .alert
-      %button(type="button" class="close" data-dismiss="alert") x
-      = link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
-      to help us update your location while you are offline.
-
-%h1= current_team.name
+%h1= @team.name
 
 #map_container
   #map_canvas
@@ -13,5 +6,5 @@
 :javascript
   window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}
   window.request_geo = #{request_geo?.to_json}
-  window.team = #{current_team.as_json(:only => [:id, :name]).to_json}
-  window.team_mates = #{current_team.users.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}
+  window.team = #{@team.as_json(:only => [:id, :name]).to_json}
+  window.team_mates = #{@team.users.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}

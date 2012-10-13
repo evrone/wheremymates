@@ -1,8 +1,10 @@
 class TeamsController < ApplicationController
-  before_filter :require_team, only: [:show]
+  #before_filter :require_team, only: [:show]
   before_filter :authenticate_user!, :only => [:create]
 
   def show
+    @team = Team.find(params[:id])
+    set_current_team(@team)
   end
 
   def create
@@ -22,11 +24,11 @@ class TeamsController < ApplicationController
 
   private
 
-  def require_team
-    unless current_team
-      redirect_to root_url, alert: "Team required."
-      false
-    end
-  end
+  #def require_team
+  #  unless current_team
+  #    redirect_to root_url, alert: "Team required."
+  #    false
+  #  end
+  #end
 
 end
