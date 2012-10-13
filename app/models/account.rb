@@ -15,8 +15,16 @@ class Account < ActiveRecord::Base
   def self.create_from_omniauth(user, auth)
     create! do |account|
       account.user = user
-      account.uid = auth["uid"]
-      account.provider = auth["provider"]
+      account.uid = auth[:uid]
+      account.provider = auth[:provider]
+      account.token = auth[:credentials][:token]
     end
+  end
+
+  def get_location
+    client = Foursquare2::Client.new(oauth_token: token)
+    latest_checkins = client.user('self').checkins(limit: 1)
+    location = latest_checkins.items.first.venue.location
+    {city: location.city, country: location.country, latitude: location.lat, longitude: location.lng}
   end
 end
