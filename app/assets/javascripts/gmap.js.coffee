@@ -38,14 +38,17 @@ class Gmap
       @bounds.extend(geo)
 
   renderMe: ->
-    if @me.latitude && @me.longitude && !@me.marker
+    if @me.latitude && @me.longitude
       geo = new google.maps.LatLng(@me.latitude, @me.longitude)
-      @me.marker = new google.maps.Marker
-        position: geo
-        map: @map
-        title: @me.name
-        icon: if @me.in_team then @my_marker_image else null
-      @me.in_team.marker = @me.marker if @me.in_team
+      if @me.marker
+        @me.marker.setPosition(geo)
+      else
+        @me.marker = new google.maps.Marker
+          position: geo
+          map: @map
+          title: @me.name
+          icon: if @me.in_team then @my_marker_image else null
+        @me.in_team.marker = @me.marker if @me.in_team
       @bounds.extend(geo)
 
   detectUser: ->
