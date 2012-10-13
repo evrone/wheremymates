@@ -8,4 +8,12 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def current_team
+    @current_team ||= Team.find_by_current_team_id(session[:current_team_id]) if session[:current_team_id]
+  end
+  helper_method :current_team
+
+  def set_current_team(team)
+    session[:current_team_id] = team.id
+  end
 end
