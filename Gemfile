@@ -20,6 +20,7 @@ gem 'jquery-rails'
 gem 'haml'
 gem 'capistrano'
 gem 'airbrake'
+gem 'omniauth-foursquare'
 
 group :production do
   gem 'therubyracer'
