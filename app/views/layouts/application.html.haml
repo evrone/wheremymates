@@ -2,18 +2,25 @@
 %html
   %head
     = stylesheet_link_tag    "application", :media => "all"
-    = javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true&libraries=geometry"
+    -#= javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true&libraries=geometry"
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    %div
-      - if current_user
-        %p
-          Hi, #{current_user.name || current_user.id}
-          - if current_user.team
-            (Team: #{current_user.team.name})
-          = link_to "Sign out", signout_path
-      - else
-        %p= link_to "Sign in with Facebook", "/auth/facebook"
-    %div
+    .l-page__container
+      .l-page__sidebar
+        - if current_user
+          %p
+            Hi, #{current_user.name || current_user.id}
+            = link_to "Sign out", signout_path
+          %p
+            - if current_user.has_account?(:foursquare)
+              Your 4Square account:
+              = current_user.account(:foursquare).uid
+            - else
+              = link_to "Connect 4Square", "/auth/foursquare"
+        - else
+          %p= link_to "Sign in with Facebook", "/auth/facebook"
+        = yield :sidebar
       = yield
+    .l-page__footer
+      = yield :scripts

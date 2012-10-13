@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   belongs_to :team
 
+  acts_as_gmappable
+
   def self.from_omniauth(auth)
     where(auth.slice("uid")).first || create_from_omniauth(auth)
   end
@@ -33,5 +35,9 @@ class User < ActiveRecord::Base
         update_attributes!(location)
       end
     end
+  end
+
+  def gmaps
+    true
   end
 end

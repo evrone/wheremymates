@@ -21,6 +21,7 @@ gem 'haml'
 gem 'capistrano'
 gem 'airbrake'
 gem 'foursquare2'
+gem 'gmaps4rails'
 
 gem 'omniauth-foursquare'
 gem 'omniauth-facebook'

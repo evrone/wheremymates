@@ -60,6 +60,7 @@ GEM
       hashie (~> 1.0)
     girl_friday (0.10.0)
       connection_pool (~> 0.9.0)
+    gmaps4rails (1.5.5)
     haml (3.1.7)
     hashie (1.2.0)
     highline (1.6.15)
@@ -163,6 +164,7 @@ DEPENDENCIES
   capistrano
   coffee-rails (~> 3.2.1)
   foursquare2
+  gmaps4rails
   haml
   jquery-rails
   mysql2
