@@ -1,12 +1,12 @@
 defaults: &defaults
-
-development:
-  <<: *defaults
   foursquare_key: "QOUC2ILLMDQ2UQMFOPLQJ4OTGBDG2R1UKBSMH5M5G15BOZTF"
   foursquare_secret: "ZXYLOXLP33Q2EAYJVJJLQFGFSW0VNB14NRH2FE4CKHOHVDEW"
 
   facebook_key: "376432435769798"
   facebook_secret: "c39c4bf6abfa459abd55435a602ca736"
+
+development:
+  <<: *defaults
 
 test:
   <<: *defaults
