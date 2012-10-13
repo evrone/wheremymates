@@ -100,6 +100,8 @@ GEM
     omniauth (1.1.1)
       hashie (~> 1.2)
       rack
+    omniauth-facebook (1.4.1)
+      omniauth-oauth2 (~> 1.1.0)
     omniauth-foursquare (0.0.8)
       omniauth (~> 1.0)
       omniauth-oauth2 (~> 1.0)
@@ -164,6 +166,7 @@ DEPENDENCIES
   haml
   jquery-rails
   mysql2
+  omniauth-facebook
   omniauth-foursquare
   rails (= 3.2.8)
   sass-rails (~> 3.2.3)

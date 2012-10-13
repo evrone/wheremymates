@@ -23,6 +23,7 @@ gem 'airbrake'
 gem 'foursquare2'
 
 gem 'omniauth-foursquare'
+gem 'omniauth-facebook'
 
 group :production do
   gem 'therubyracer'
