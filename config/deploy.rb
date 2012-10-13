@@ -91,6 +91,7 @@ end
 
 ### Custom
 
+## Campfire
 require 'capistrano/mountaintop'
 set :campfire_options, {
   :account => "evrone",
@@ -108,3 +109,7 @@ at_exit do
     campfire_room.speak "http://i.imgur.com/oYeMx.png"
   end
 end
+
+## Cron
+set :whenever_command, "bundle exec whenever"
+require 'whenever/capistrano'

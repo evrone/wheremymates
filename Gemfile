@@ -23,6 +23,7 @@ gem 'airbrake'
 gem 'foursquare2'
 gem 'gmaps4rails'
 gem 'settingslogic'
+gem 'whenever', :require => false
 
 gem 'omniauth-foursquare'
 gem 'omniauth-facebook'
