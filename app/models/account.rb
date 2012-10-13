@@ -25,10 +25,14 @@ class Account < ActiveRecord::Base
     client = Foursquare2::Client.new(oauth_token: token)
 
     latest_checkins = client.user('self').checkins(limit: 1)
-    checkin = latest_checkins.items.first
-    location = checkin.venue.location
+    if latest_checkins
+      checkin = latest_checkins.items.first
+      location = checkin.venue.location
 
-    # city: location.city, country: location.country
-    {latitude: location.lat, longitude: location.lng, created_at: Time.at(checkin.createdAt)}
+      # city: location.city, country: location.country
+      {latitude: location.lat, longitude: location.lng, created_at: Time.at(checkin.createdAt)}
+    else
+      nil
+    end
   end
 end

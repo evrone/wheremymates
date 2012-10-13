@@ -28,8 +28,10 @@ class User < ActiveRecord::Base
   end
 
   def update_location
-    if accounts.any?
-      location = accounts.first.get_location
+    return unless accounts.any?
+
+    location = accounts.first.get_location
+    if location
       should_replace_location = location_updated_at.nil? || location[:created_at] > location_updated_at
       if should_replace_location
         self.location_updated_at = Time.now
