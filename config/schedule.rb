@@ -1,5 +1,5 @@
 set :output, "/var/www/apps/railsrumble/current/log/cron_log.log"
 
-every 10.minutes do
+every 5.minutes do
   rake "app:location"
 end
