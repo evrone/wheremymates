@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   attr_accessible :latitude, :longitude, :team, :name
-  attr_accessible :latitude, :longitude, :as => :geo_data
+  attr_accessible :latitude, :longitude, :location_updated_at, :as => :geo_data
 
   has_many :accounts, dependent: :destroy
 

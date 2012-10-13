@@ -4,7 +4,7 @@ class Gmap
     @map = @renderMap()
     @mates = if window.team_mates then window.team_mates else [window.current_user]
     @renderMates()
-    @detectUser()
+    @detectUser() if window.request_geo
 
   renderMap: ->
     myOptions =

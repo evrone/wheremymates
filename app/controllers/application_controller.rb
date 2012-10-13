@@ -15,4 +15,8 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_team
 
+  def request_geo?
+    session[:geo_saved] ? false : session[:geo_saved] = true
+  end
+  helper_method :request_geo?
 end
