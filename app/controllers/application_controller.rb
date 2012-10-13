@@ -8,6 +8,12 @@ class ApplicationController < ActionController::Base
   end
   helper_method :current_user
 
+  def authenticate_user!
+    return true if current_user
+
+    redirect_to signin_path
+  end
+
   def current_team
     @current_team ||= Team.find_by_id(params[:team_id]) if params[:team_id]
     @current_team ||= current_user.team if current_user

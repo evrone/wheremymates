@@ -11,5 +11,5 @@ WhereMyMates::Application.routes.draw do
     post :update_geo, :on => :member
   end
 
-  resources :teams, only: [:show]
+  resources :teams, only: [:show, :create]
 end

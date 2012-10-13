@@ -10,9 +10,24 @@
         %ul.nav
           - my_team = current_user.team if current_user
           - if my_team
-            %li= link_to "My Team: #{my_team.name}", my_team
+            %li
+              = link_to "My Team: #{my_team.name}", my_team
+            %li
+              = link_to_function "Edit Team", "$(this).parents('ul').find('li.edit_my_team').toggleClass('hide')"
+            %li.edit_my_team.hide
+              = form_for my_team, :url => teams_path, :method => :post do |form|
+                = form.text_field :name
+                = form.submit 'ok'
+
             %li= mail_to "enter_real_email_@_please", "Invite member!",
-              :subject => 'Invitation letter to wheremymates.com', :body => signin_url(:invitation_key => my_team.invitation_key)
+              :subject => 'Invitation to wheremymates.com', :body => signin_url(:invitation_key => my_team.invitation_key)
+          - else
+            %li
+              = link_to_function "Create Your Team!", "$(this).parents('ul').find('li.create_my_team').toggleClass('hide')"
+            %li.create_my_team.hide
+              = form_for Team.new do |form|
+                = form.text_field :name
+                = form.submit 'ok'
         - if current_user
           %ul.nav.pull-right
             %li.dropdown
