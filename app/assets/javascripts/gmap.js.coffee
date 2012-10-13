@@ -1,9 +1,14 @@
 class Gmap
   constructor: ->
+    @my_marker_image = "http://img.brothersoft.com/icon/softimage/l/little_fighter_2-65984.jpeg"
     @marker_image = "http://img.brothersoft.com/icon/softimage/r/ruby-120627.jpeg"
     @map = @renderMap()
-    @mates = if window.team_mates then window.team_mates else [window.current_user]
+    @bounds = new google.maps.LatLngBounds()
+    @me = window.current_user
+    @mates = if window.team_mates then window.team_mates else []
     @renderMates()
+    @renderMe()
+    @fitBounds()
     @detectUser() if window.request_geo
 
   renderMap: ->
@@ -14,20 +19,34 @@ class Gmap
       mapTypeId: google.maps.MapTypeId.ROADMAP
     new google.maps.Map document.getElementById("map_canvas"), myOptions
 
-  renderMates: ->
-    bounds = new google.maps.LatLngBounds()
-    @renderMate(mate, bounds) for mate in @mates
-    @map.fitBounds(bounds)
+  fitBounds: ->
+    @map.fitBounds(@bounds)
 
-  renderMate: (mate, bounds) ->
-    if mate.latitude && mate.longitude
+  renderMates: ->
+    @renderMate(mate) for mate in @mates
+
+  renderMate: (mate) ->
+    if mate.id == @me.id
+      @me.in_team = mate
+    else if mate.latitude && mate.longitude
       geo = new google.maps.LatLng(mate.latitude, mate.longitude)
       mate.marker = new google.maps.Marker
         position: geo
         map: @map
         title: mate.name
         icon: @marker_image
-      bounds.extend(geo)
+      @bounds.extend(geo)
+
+  renderMe: ->
+    if @me.latitude && @me.longitude && !@me.marker
+      geo = new google.maps.LatLng(@me.latitude, @me.longitude)
+      @me.marker = new google.maps.Marker
+        position: geo
+        map: @map
+        title: @me.name
+        icon: if @me.in_team then @my_marker_image else null
+      @me.in_team.marker = @me.marker if @me.in_team
+      @bounds.extend(geo)
 
   detectUser: ->
     if navigator.geolocation
@@ -38,7 +57,9 @@ class Gmap
       @handleNoGeolocation()
 
   handleGeolocation: (position)->
-    pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude)
+    @me.latitude = position.coords.latitude
+    @me.longitude = position.coords.longitude
+    pos = new google.maps.LatLng(@me.latitude, @me.longitude)
     new google.maps.InfoWindow
       map: @map
       position: pos
@@ -47,9 +68,12 @@ class Gmap
       user:
         latitude: position.coords.latitude
         longitude: position.coords.longitude
+    @renderMe()
+    @fitBounds()
 
   handleNoGeolocation: ->
-    @map.setCenter new google.maps.LatLng(-34.397, 150.644)
+    #@map.setCenter new google.maps.LatLng(-34.397, 150.644)
+    false
 
 $ ->
   if $('#map_canvas').length > 0 && google?
