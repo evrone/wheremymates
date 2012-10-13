@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
     accounts.exists?(provider: provider)
   end
 
+  def has_not_account?(provider)
+    !has_account?(provider)
+  end
+
   def account(provider)
     accounts.where(provider: provider).first
   end

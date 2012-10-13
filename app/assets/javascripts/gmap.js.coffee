@@ -4,7 +4,7 @@ class Gmap
     @marker_image = "http://img.brothersoft.com/icon/softimage/r/ruby-120627.jpeg"
     @map = @renderMap()
     @bounds = new google.maps.LatLngBounds()
-    @me = window.current_user
+    @me = window.current_user || {}
     @mates = if window.team_mates then window.team_mates else []
     @renderMates()
     @renderMe()
