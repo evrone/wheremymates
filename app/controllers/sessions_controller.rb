@@ -6,8 +6,6 @@ class SessionsController < ApplicationController
   end
 
   def create
-    # raise env['omniauth.auth'].to_yaml
-
     auth = env['omniauth.auth']
     if auth[:provider] == 'facebook'
       user = User.from_omniauth(auth)
