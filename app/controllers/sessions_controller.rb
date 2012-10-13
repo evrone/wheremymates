@@ -1,10 +1,23 @@
 class SessionsController < ApplicationController
+  def new
+    session[:invitation_key] = params[:invitation_key]
+
+    redirect_to "/auth/facebook"
+  end
+
   def create
     # raise env['omniauth.auth'].to_yaml
 
     auth = env['omniauth.auth']
     if auth[:provider] == 'facebook'
       user = User.from_omniauth(auth)
+
+      if session[:invitation_key]
+        team = Team.find_by_invitation_key(session[:invitation_key])
+        if team
+          user.update_attribute(:team, team)
+        end
+      end
 
       # TODO: fix stub
       unless user.team
