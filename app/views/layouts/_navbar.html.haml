@@ -9,7 +9,7 @@
       .container.nav-collapse
         %ul.nav
           - if current_user && current_user.team
-            %li= link_to "(#{current_user.team.name})", root_path(:current_team_id => current_user.team.id)
+            %li= link_to "(#{current_user.team.name})", root_path(:team_id => current_user.team.id)
         - if current_user
           %ul.nav.pull-right
             %li.dropdown
