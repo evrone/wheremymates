@@ -30,3 +30,7 @@ gem 'omniauth-facebook'
 group :production do
   gem 'therubyracer'
 end
+
+group :development do
+  gem 'capistrano-mountaintop'
+end

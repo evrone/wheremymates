@@ -87,3 +87,24 @@ deploy.task :restart, :roles => :app do
   # Restart Application
   run "touch #{current_path}/tmp/restart.txt"
 end
+
+
+### Custom
+
+require 'capistrano/mountaintop'
+set :campfire_options, {
+  :account => "evrone",
+  :room => "4Square Rumble",
+  :user => "Hubot",
+  :token => "de1e2d10ccf72b212780712d7c074c0a8ae3b7c1",
+  :ssl => true
+}
+
+at_exit do
+  log = fetch(:full_log)
+  if log.include?("rolling back")
+    campfire_room.speak "http://i.imgur.com/XNCA1.png"
+  else
+    campfire_room.speak "http://i.imgur.com/oYeMx.png"
+  end
+end
