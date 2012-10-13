@@ -40,12 +40,12 @@
           - if current_user
             .well.sidebar-nav
               %ul.nav.nav-list
-                %li.nav-header Providers
+                %li.nav-header Improve location detection
                 - if current_user.has_account?(:foursquare)
                   Your 4Square account:
                   = current_user.account(:foursquare).uid
                 - else
-                  = link_to "Connect 4Square", "/auth/foursquare"
+                  %p= link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
 
         .span9
           = yield
