@@ -1,9 +1,10 @@
 class User < ActiveRecord::Base
+  attr_accessible :latitude, :longitude, :team
+  attr_accessible :latitude, :longitude, :as => :geo_data
+  
   has_many :accounts, dependent: :destroy
 
-  attr_accessible :email, :latitude, :longitude
-  # , :city, :country
-  attr_accessible :latitude, :longitude, :as => :geo_data
+  belongs_to :team
 
   def self.from_omniauth(auth)
     where(auth.slice("uid")).first || create_from_omniauth(auth)

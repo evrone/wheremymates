@@ -36,4 +36,14 @@ ActiveRecord::Schema.define(:version => 20121013091651) do
     t.datetime "location_updated_at"
   end
 
+  create_table "teams", :force => true do |t|
+    t.integer  "team_id"
+    t.string   "name",           :null => false
+    t.string   "invitation_key", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "teams", ["invitation_key"], :name => "index_teams_on_invitation_key", :unique => true
+
 end

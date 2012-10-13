@@ -9,7 +9,7 @@
     %div
       - if current_user
         %p
-          Hi, #{current_user.id}
+          Hi, #{current_user.id} (Team: #{current_user.team.name})
           = link_to "Sign out", signout_path
       - else
         %p= link_to "Sign in with Facebook", "/auth/facebook"
