@@ -8,11 +8,8 @@
       %a.brand(href="#") WhereMyMates
       .container.nav-collapse
         %ul.nav
-          - if current_user
-            - if current_user.team
-              %li= link_to "(#{current_user.team.name})", root_path(:current_team_id => current_user.team.id)
-          - else
-            %li= link_to "Sign in with Facebook", signin_path
+          - if current_user && current_user.team
+            %li= link_to "(#{current_user.team.name})", root_path(:current_team_id => current_user.team.id)
         - if current_user
           %ul.nav.pull-right
             %li.dropdown
@@ -21,3 +18,5 @@
                 %b.caret
               %ul.dropdown-menu
                 %li= link_to "Sign out", signout_path
+        - else
+          %p.navbar-text.pull-right= link_to "Sign in with Facebook", signin_path, class: "navbar-link"
