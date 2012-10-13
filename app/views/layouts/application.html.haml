@@ -27,21 +27,7 @@
           = yield :top
 
       .row-fluid
-        .span9
-          = yield
-        .span3
-          - if current_team
-            .well.sidebar-nav
-              %ul.nav.nav-list
-                %li.nav-header #{current_team.name} team members:
-                - current_team.users.find_each do |user|
-                  %li= user.name
-
-          .well.sidebar-nav
-            %ul.nav.nav-list
-              %li.nav-header Teams
-              - Team.find_each do |team|
-                %li= link_to team.name, team
+        = yield
 
       %footer
         %p &copy; Evrone 2012

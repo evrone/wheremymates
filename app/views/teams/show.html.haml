@@ -1,7 +1,23 @@
-%h1= @team.name
+- unless current_user.has_account?(:foursquare)
+  = content_for :top do
+    .alert
+      %button(type="button" class="close" data-dismiss="alert") x
+      = link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
+      to help us update your location while you are offline.
 
-#map_container
-  #map_canvas
+.span9
+  %h1= @team.name
+
+  #map_container
+    #map_canvas
+
+.span3
+  - if current_team
+    .well.sidebar-nav
+      %ul.nav.nav-list
+        %li.nav-header Mates
+        - current_team.users.find_each do |user|
+          %li= user.name
 
 :javascript
   window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}
