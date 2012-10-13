@@ -23,6 +23,8 @@
     .container-fluid
 
       .row-fluid
+        .span9
+          = yield
         .span3
           - if current_team
             .well.sidebar-nav
@@ -47,8 +49,6 @@
                 - else
                   %p= link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
 
-        .span9
-          = yield
 
       %footer
         %p &copy; Evrone 2012
