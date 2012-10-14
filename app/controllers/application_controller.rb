@@ -11,7 +11,20 @@ class ApplicationController < ActionController::Base
   def authenticate_user!
     return true if current_user
 
+    set_after_sign_in_path(request.url)
     redirect_to signin_path
+  end
+
+  def after_sign_in_path
+    session[:return_path] || root_path
+  end
+
+  def set_after_sign_in_path(url)
+    session[:return_path] = url
+  end
+
+  def reset_after_sign_in_path!
+    session.delete(:return_path)
   end
 
   def current_team

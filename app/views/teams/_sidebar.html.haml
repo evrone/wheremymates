@@ -1,10 +1,15 @@
 %h3.team_name= @team.name
 
-- if current_user && current_user.has_not_account?(:foursquare)
+- if current_user && current_user.team == current_team
   .alert
     %button(type="button" class="close" data-dismiss="alert") x
-    = link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
-    to help us update your location while you are offline.
+    Now invite other members of your team to see tham on the map by link: #{join_to_team_url(:invitation_key => current_user.team.invitation_key)}
+
+  - if current_user.has_not_account?(:foursquare)
+    .alert
+      %button(type="button" class="close" data-dismiss="alert") x
+      = link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
+      to help us update your location while you are offline.
 
 - if current_team.users.many?
   .sidebar-nav
@@ -20,10 +25,3 @@
               %span.distance
         - unless current_team.users.last == user
           %li.divider
-
-- else
-  .alert
-    %button(type="button" class="close" data-dismiss="alert") x
-    Now
-    = invite_link("invite")
-    other members of your team to see tham on the map.

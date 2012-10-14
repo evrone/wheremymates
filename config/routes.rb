@@ -4,11 +4,13 @@ WhereMyMates::Application.routes.draw do
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
   match 'signout', to: 'sessions#destroy', as: 'signout'
-  match 'signin(/:invitation_key)', to: 'sessions#new', as: 'signin'
+  match 'signin', to: 'sessions#new', as: 'signin'
 
   resource :user, :only => [] do
     post :update_geo, :on => :member
   end
+
+  match 'teams/:invitation_key/join', to: 'teams#join', as: 'join_to_team'
 
   resources :teams, only: [:show, :create]
 end

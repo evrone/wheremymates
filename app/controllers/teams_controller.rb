@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_filter :authenticate_user!, :only => [:create]
+  before_filter :authenticate_user!, :only => [:create, :join]
 
   def show
     @team = Team.find(params[:id])
@@ -21,4 +21,9 @@ class TeamsController < ApplicationController
     redirect_to root_path
   end
 
+  def join
+    team = Team.find_by_invitation_key!(params[:invitation_key])
+    current_user.update_attribute(:team, team)
+    redirect_to team
+  end
 end

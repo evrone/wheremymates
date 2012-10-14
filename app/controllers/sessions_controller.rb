@@ -1,7 +1,5 @@
 class SessionsController < ApplicationController
   def new
-    session[:invitation_key] = params[:invitation_key]
-
     redirect_to "/auth/facebook"
   end
 
@@ -10,23 +8,20 @@ class SessionsController < ApplicationController
     if auth[:provider] == 'facebook'
       user = User.from_omniauth(auth)
 
-      if session[:invitation_key]
-        team = Team.find_by_invitation_key(session[:invitation_key])
-        if team
-          user.update_attribute(:team, team)
-        end
-      end
-
       session[:user_id] = user.id
-      redirect_to root_url, notice: "Signed in."
+      flash.notice = "Signed in."
     else
-      account = Account.from_omniauth(current_user, auth)
-      redirect_to root_url, notice: "#{auth[:provider]} account added."
+      Account.from_omniauth(current_user, auth)
+      flash.notice = "#{auth[:provider]} account added."
     end
+
+    redirect_to after_sign_in_path
+    reset_after_sign_in_path!
   end
 
   def destroy
     session[:user_id] = nil
     redirect_to root_url, notice: "Signed out."
   end
+
 end
