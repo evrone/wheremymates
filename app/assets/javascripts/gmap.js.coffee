@@ -84,30 +84,41 @@ class Gmap
 
   # ============ #
   renderInfo: ->
-    geocoder = new google.maps.Geocoder()
+    @geocoder = new google.maps.Geocoder()
+    @geocodeQueue = []
+    n = 0
     for mate in @mates
       if mate.latitude && mate.longitude
         elem = mate.elem
-        geocoder.geocode {location: mate.geo}, @renderPlace.bind(elem)
+        if n > 3
+          @geocodeQueue.push(mate)
+        else
+          @geocodeMate(mate)
+        n++
         if mate.id == @me.id
         else
           if @me && @me.geo
             distance_km = Math.round(google.maps.geometry.spherical.computeDistanceBetween(@me.geo, mate.geo)/1000)
             @renderDiff(elem, distance_km)
 
-  renderPlace: (results, status) ->
-    checkPlace = (address) ->
-      places_list = ['country', 'administrative_area_level_1',
-                     'administrative_area_level_2', 'administrative_area_level_3']
-      for component in address
-        for ctype in component.types
-          return component.short_name if places_list.indexOf(ctype)!=-1 && component.short_name != ''
+  geocodeMate: (mate) ->
+    @geocoder.geocode {location: mate.geo}, @renderPlace.bind(this, mate)
 
+  renderPlace: (mate, results, status) ->
     if status == google.maps.GeocoderStatus.OK
-      place_name = checkPlace(results[0].address_components)
+      place_name = @checkPlace(results[0].address_components)
       if place_name?
-        place = this.find('.place')
+        place = mate.elem.find('.place')
         place.text(place_name)
+    if nextmate = @geocodeQueue.pop()
+      @geocodeMate(nextmate)
+
+  checkPlace: (address) ->
+    places_list = ['country', 'administrative_area_level_1',
+                   'administrative_area_level_2', 'administrative_area_level_3']
+    for component in address
+      for ctype in component.types
+        return component.short_name if places_list.indexOf(ctype)!=-1 && component.short_name != ''
 
   renderDiff: (elem, distance_km) ->
     distance = elem.find('.distance')
