@@ -6,14 +6,24 @@
 }
 
 .sidebar {
-  position: relative;
-  padding-bottom: 20px;
   height: 100%;
-  h3 { margin-top: 0;}
-  .copyright {
+  position: relative;
+  padding-top: 40px;
+
+  .team_name {
+    margin-top: 0;
     position: absolute;
-    bottom: 0;
-    left: 10px;
+    top: 0;
+    left: 0;
+    height: 40px;
+    overflow: hidden;
+  }
+  .sidebar-nav {
+    //margin-top: 40px;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
   }
   .nav-list {
     padding: 0;

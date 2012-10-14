@@ -18,15 +18,16 @@
 
 
   %body
-    = render "layouts/navbar"
+    .l-page
+      = render "layouts/navbar"
+      .l-page__container
+        = yield
 
-    = yield
-
-    %footer.navbar.navbar-fixed-bottom.navbar-inverse
-      .navbar-inner
-        .container
-          .copyright
-            &copy; #{link_to "Evrone", "evrone.com", target: "_blank"} 2012
+      %footer.l-page__footer.navbar.navbar-fixed-bottom.navbar-inverse
+        .navbar-inner
+          .container
+            .copyright
+              &copy; #{link_to "Evrone", "evrone.com", target: "_blank"} 2012
 
     /
       Javascripts
