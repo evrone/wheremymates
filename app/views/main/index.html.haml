@@ -8,9 +8,18 @@
       .carousel.slide#HowItWorks
         / Carousel items
         .carousel-inner
-          .item.active= image_tag "carousel/slide_1.png"
-          .item= image_tag "carousel/slide_2.png"
-          .item= image_tag "carousel/slide_3.png"
+          .item.active
+            = image_tag "carousel/slide_1.png"
+            .carousel-caption
+              %h4 Main window
+          .item
+            = image_tag "carousel/slide_2.png"
+            .carousel-caption
+              %h4 Distance to your mate
+          .item
+            = image_tag "carousel/slide_3.png"
+            .carousel-caption
+              %h4 Grouping nearest mates
         / Carousel nav
         = link_to "‹", "#HowItWorks", class: "carousel-control left", data: {slide: "prev"}
         = link_to "›", "#HowItWorks", class: "carousel-control right", data: {slide: "next"}
@@ -23,6 +32,6 @@
             = link_to team.name, team
             %span.badge.badge-info
               %i.icon-user
-                = team.users_count
+              = team.users_count
 
 
