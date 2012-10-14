@@ -2,10 +2,12 @@
   .modal.hide#invite_modal(tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true")
     .modal-header
       %button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
-      %h3#inviteModalLabel Invite other members of your team to see them on the map
+      -#%h3#inviteModalLabel Invite other members of your team to see them on the map
+      %h3#inviteModalLabel Invite your mates to see them on the map
 
     .modal-body
-      %p Just share this link and they will be added to your team after sign up.
+      -#%p Just share this link and they will be added to your team after sign up.
+      %p Share this link:
       %p
         = text_field_tag :join_link, join_to_team_url(:invitation_key => current_user.team.invitation_key), :class => 'join_link'
 
