@@ -1,8 +1,9 @@
 .modal#new_team_modal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
   = form_for(@team) do |f|
     .modal-header
-      %button(type="button" class="close" data-dismiss="modal" aria-hidden="true")×
+      %button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
       %h3#myModalLabel Now create your team
+
     .modal-body
       = f.text_field :name, placeholder: "Choose name"
 
