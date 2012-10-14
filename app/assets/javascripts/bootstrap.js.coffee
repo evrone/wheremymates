@@ -3,4 +3,4 @@ jQuery ->
   $(".tooltip").tooltip()
   $("a[rel=tooltip]").tooltip()
 
-  $('.join_link').focus -> this.select()
+$('.join_link').focus -> this.select()
