@@ -24,6 +24,7 @@ class Gmap
   initClusterer: ->
     @clusterer = new MarkerClusterer @map
     google.maps.event.addListener @clusterer, 'mouseover', (cluster) =>
+      cluster.info.close() if cluster.info
       cluster_info = $('<div></div>')
       cluster_info.append("<img src='" + marker.mate.avatar_url + "' />") for marker in cluster.getMarkers()
       cluster.info = new google.maps.InfoWindow
@@ -145,7 +146,10 @@ class Gmap
     elem.addClass('present')
     elem.click =>
       marker = mate.marker
-      if @map.getBounds().contains(mate.geo)
+      cluster = @findInCluster(marker)
+      if cluster
+        google.maps.event.trigger @clusterer, 'mouseover', cluster
+      else if @map.getBounds().contains(mate.geo)
         marker.setAnimation(google.maps.Animation.BOUNCE)
         setTimeout ->
           marker.setAnimation(null)
@@ -165,6 +169,10 @@ class Gmap
       elem.addClass('highlight')
     google.maps.event.addListener mate.marker, 'mouseout', ->
       elem.removeClass('highlight')
+
+  findInCluster: (marker) ->
+    for cluster in @clusterer.getClusters()
+      return cluster if cluster.getSize() > 1 && cluster.getMarkers().indexOf(marker)!=-1
 
   distancePoly: ->
     @distancePolyline ||= new google.maps.Polyline
