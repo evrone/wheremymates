@@ -1,10 +1,16 @@
 .container
-  .hero-unit
-    %h1 Your mates on the map!
-    %p This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
-    %p
-      %a(class="btn btn-primary btn-large" href="/teams/1") See DEMO page
+  .row
+    .span9
+      .page-header
+        %h1
+          Your mates on the map!
+          %small Just add them
+      .slideshow
+        = image_tag "http://i.imm.io/HVh2.png"
 
-  - Team.find_each do |team|
-    = link_to team.name, team
+    .span3
+      %h3 Top 10 Teams
+      %ol
+        - Team.find_each do |team|
+          %li= link_to team.name, team
 
