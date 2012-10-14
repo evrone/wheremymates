@@ -20,14 +20,14 @@
   %body
     .l-page
 
-      = render "layouts/navbar-fluid"
+      = render "layouts/navbar"
 
       .l-page__container
         = yield
 
       %footer.l-page__footer.navbar-inverse
         .navbar-inner
-          .container-fluid
+          %div{class: (controller_name == "main" ? "container" : "container-fluid" )}
             .copyright
               &copy; #{link_to "Evrone", "evrone.com", target: "_blank"} 2012
 

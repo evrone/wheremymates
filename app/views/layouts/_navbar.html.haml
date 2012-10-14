@@ -1,12 +1,12 @@
 .navbar.navbar-fixed-top.navbar-inverse
   .navbar-inner
-    .container
+    %div{class: (controller_name == "main" ? "container" : "container-fluid" )}
       %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
       = link_to "WhereMyMates", root_path, :class => 'brand'
-      .container.nav-collapse
+      .nav-collapse{class: (controller_name == "main" ? "container" : "container-fluid" )}
         %ul.nav
           - my_team = current_user.team if current_user
           - if my_team
