@@ -16,7 +16,11 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path
-    session[:return_path] || root_path
+    if session[:return_path]
+      session[:return_path]
+    else
+      current_user.team ? current_user.team : new_team_path
+    end
   end
 
   def set_after_sign_in_path(url)

@@ -1,5 +1,16 @@
 class TeamsController < ApplicationController
-  before_filter :authenticate_user!, :only => [:create, :join]
+  before_filter :require_user_in_team, only: [:my]
+  before_filter :authenticate_user!, :only => [:create, :my, :join]
+
+  respond_to :html, :json
+
+  def new
+    if current_user.team
+      redirect_to current_user.team, notice: "Already in a team."
+    else
+      @team = Team.new
+    end
+  end
 
   def show
     @team = Team.find(params[:id])
@@ -7,18 +18,16 @@ class TeamsController < ApplicationController
   end
 
   def create
-    prev_team = current_user.team
-
-    if params[:team][:name].present?
-      team = Team.find_or_create_by_name(params[:team][:name])
+    unless current_user.team
+      team = Team.create!(params[:team])
       current_user.update_attribute(:team, team)
-    else
-      current_user.update_attribute(:team, nil)
     end
 
-    prev_team.destroy if prev_team && prev_team.users.count <= 0
+    respond_with(current_user.team)
+  end
 
-    redirect_to root_path
+  def my
+    redirect_to current_user.team
   end
 
   def join
@@ -26,4 +35,14 @@ class TeamsController < ApplicationController
     current_user.update_attribute(:team, team)
     redirect_to team
   end
+
+  private
+
+  def require_user_in_team
+    unless current_user.team
+      redirect_to root_url, alert: "Team required."
+      false
+    end
+  end
+
 end

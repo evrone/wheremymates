@@ -1,0 +1,11 @@
+= render "new_form"
+
+.container-fluid.teams-container
+  .row-fluid.teams-new
+    .span12#map_container
+      #map_canvas
+
+- if current_user
+  :javascript
+    window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude], :methods => :avatar_url).to_json}
+    window.request_geo = #{request_geo?.to_json}
