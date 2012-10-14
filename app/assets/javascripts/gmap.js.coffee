@@ -84,6 +84,7 @@ class Gmap
           icon: if @me.in_team then @icon(@me.in_team.avatar_url) else null
         if @me.in_team
           @me.in_team.marker = @me.marker
+          @clusterer.addMarker @me.marker
           @me.marker.mate = @me.in_team
           @me.in_team.geo = @me.geo
           @bindMate(@me.in_team)
@@ -184,11 +185,15 @@ class Gmap
       else
         @map.panTo mate.geo
     elem.find('.distance').mouseenter =>
+      if cluster = @findInCluster(@me.marker)
+        source = cluster.getCenter()
+      else
+        source = @me.geo
       if cluster = @findInCluster(mate.marker)
         target = cluster.getCenter()
       else
         target = mate.geo
-      @distancePoly().setPath [@me.geo, target]
+      @distancePoly().setPath [source, target]
       @distancePoly().setVisible(true)
     elem.find('.distance').mouseleave =>
       @distancePoly().setVisible(false)
