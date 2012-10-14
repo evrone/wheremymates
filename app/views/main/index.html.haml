@@ -24,7 +24,12 @@
         = link_to "‹", "#HowItWorks", class: "carousel-control left", data: {slide: "prev"}
         = link_to "›", "#HowItWorks", class: "carousel-control right", data: {slide: "next"}
 
-    .span3.top-teams
+    .span3.sidebar-promo.top-teams
+      - unless current_user
+        = link_to(image_tag("http://likeitpages.com/images/fb-connect-large.png"), "/auth/facebook")
+        %br
+        %br
+
       %h2 Top 10 Teams
       %ol.top-teams-list
         - @teams.find_each do |team|
