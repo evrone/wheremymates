@@ -64,9 +64,9 @@ class Gmap
     for mate in @mates
       if mate.latitude && mate.longitude
         elem = mate.elem
+        geocoder.geocode {location: mate.geo}, @renderPlace.bind(elem)
         if mate.id == @me.id
         else
-          geocoder.geocode {location: mate.geo}, @renderPlace.bind(elem)
           if @me && @me.geo
             distance_km = Math.round(google.maps.geometry.spherical.computeDistanceBetween(@me.geo, mate.geo)/1000)
             @renderDiff(elem, distance_km)
