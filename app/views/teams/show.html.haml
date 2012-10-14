@@ -7,10 +7,10 @@
 
 - if current_user
   :javascript
-    window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}
+    window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude], :methods => :avatar_url).to_json}
     window.request_geo = #{request_geo?.to_json}
 
 - if current_team
   :javascript
     window.team = #{current_team.as_json(:only => [:id, :name]).to_json}
-    window.team_mates = #{current_team.users.as_json(:only => [:id, :name, :latitude, :longitude]).to_json}
+    window.team_mates = #{current_team.users.as_json(:only => [:id, :name, :latitude, :longitude], :methods => :avatar_url).to_json}

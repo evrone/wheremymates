@@ -1,7 +1,5 @@
 class Gmap
   constructor: ->
-    @my_marker_image = "http://img.brothersoft.com/icon/softimage/l/little_fighter_2-65984.jpeg"
-    @marker_image = "http://img.brothersoft.com/icon/softimage/r/ruby-120627.jpeg"
     @map = @renderMap()
     @bounds = new google.maps.LatLngBounds()
     @me = window.current_user || {}
@@ -35,7 +33,7 @@ class Gmap
         position: mate.geo
         map: @map
         title: mate.name
-        icon: @marker_image
+        icon: mate.avatar_url
       @bounds.extend(mate.geo)
       @bindMate(mate)
 
@@ -49,7 +47,7 @@ class Gmap
           position: @me.geo
           map: @map
           title: @me.name
-          icon: if @me.in_team then @my_marker_image else null
+          icon: if @me.in_team then @me.in_team.avatar_url else null
         if @me.in_team
           @me.in_team.marker = @me.marker
           @me.in_team.geo = @me.geo

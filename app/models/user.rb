@@ -43,6 +43,11 @@ class User < ActiveRecord::Base
   end
 
   def avatar_url
-    "http://graph.facebook.com/#{uid}/picture"
+    if uid
+      "http://graph.facebook.com/#{uid}/picture"
+    else
+      # fallback
+      "http://img.brothersoft.com/icon/softimage/r/ruby-120627.jpeg"
+    end
   end
 end
