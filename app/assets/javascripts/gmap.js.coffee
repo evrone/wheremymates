@@ -79,7 +79,7 @@ class Gmap
     if status == google.maps.GeocoderStatus.OK
       place = checkPlace(results[0].address_components)
       if place?
-        this.append "(" + place + ")"
+        this.find('.name').append " (" + place + ")"
 
 
   # ============ #
