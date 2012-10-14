@@ -4,15 +4,16 @@ class CreateTeamFormWidget
     @form = @dialog.find("form")
     @dialog.modal()
 
-    @form.submit =>
-      @create
+    @submit_button = @form.find(".btn-primary")
+    @submit_button.click =>
+      @create()
+      false
 
   create: ->
     @post_data(@close)
 
   post_data: (success) ->
     form_data = @form.serializeArray()
-    console.log("form_data", form_data)
     $.post("/teams", form_data, success())
     false
 
