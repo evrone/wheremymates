@@ -15,8 +15,9 @@ class Gmap
     myOptions =
       minZoom: 2
       maxZoom: 18
-      zoom: 12
+      zoom: 6
       mapTypeId: google.maps.MapTypeId.TERRAIN
+      center: new google.maps.LatLng(52.0836, 23.6886)
     @map = new google.maps.Map document.getElementById("map_canvas"), myOptions
     @bounds = new google.maps.LatLngBounds()
     @markerZindex = 0
@@ -35,6 +36,7 @@ class Gmap
       cluster.info.close()
 
   fitBounds: ->
+    return if @bounds.isEmpty()
     @map.fitBounds(@bounds)
     google.maps.event.addListenerOnce @map, 'bounds_changed', =>
       @map.setZoom(12) if @map.getZoom() > 12

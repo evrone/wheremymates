@@ -5,7 +5,7 @@
     .span10#map_container
       #map_canvas
 
-- if current_user
+- if current_user && current_user.team == current_team
   :javascript
     window.current_user = #{current_user.as_json(:only => [:id, :name, :latitude, :longitude], :methods => :avatar_url).to_json}
     window.request_geo = #{request_geo?.to_json}
