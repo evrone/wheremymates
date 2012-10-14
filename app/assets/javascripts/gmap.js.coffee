@@ -68,8 +68,8 @@ class Gmap
         else
           geocoder.geocode {location: mate.geo}, @renderPlace.bind(elem)
           if @me && @me.geo
-            dist = Math.round(google.maps.geometry.spherical.computeDistanceBetween(@me.geo, mate.geo)/1000)
-            elem.find('.location').html "" + dist + "km from you"
+            distance_km = Math.round(google.maps.geometry.spherical.computeDistanceBetween(@me.geo, mate.geo)/1000)
+            @renderDiff(elem, distance_km)
 
   renderPlace: (results, status) ->
     checkPlace = (address) ->
@@ -80,10 +80,14 @@ class Gmap
           return component.short_name if places_list.indexOf(ctype)!=-1
 
     if status == google.maps.GeocoderStatus.OK
-      place = checkPlace(results[0].address_components)
-      if place?
-        this.find('.name').append " (" + place + ")"
+      place_name = checkPlace(results[0].address_components)
+      if place_name?
+        place = this.find('.place')
+        place.text(place_name)
 
+  renderDiff: (elem, distance_km) ->
+    distance = elem.find('.distance')
+    distance.text(distance_km)
 
   # ============ #
   detectUser: ->

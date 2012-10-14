@@ -17,6 +17,11 @@ li.team_user{
     padding-left: 50px;
 
     .name { color: #666; font-weight: bold; }
-    .location { color: #999; }
+    .location {
+      color: #999;
+
+      .place { }
+      .distance { }
+    }
   }
 }
