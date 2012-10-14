@@ -11,7 +11,7 @@
           %ul.nav
             - if my_team = current_user.team
               %li
-                = link_to "My Team: #{my_team.name}", my_team
+                = link_to "My Team", my_team
               %li
                 = link_to "Leave", [:leave, my_team], :confirm => 'Are you sure?', :method => :put
             - if current_user.team
