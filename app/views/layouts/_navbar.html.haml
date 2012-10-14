@@ -1,7 +1,7 @@
 .navbar.navbar-fixed-top.navbar-inverse
   .navbar-inner
     %div{class: (controller_name == "main" ? "container" : "container-fluid" )}
-      %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
+      %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse", href='#')
         %span.icon-bar
         %span.icon-bar
         %span.icon-bar
@@ -22,7 +22,7 @@
         - if current_user
           %ul.nav.pull-right
             %li.dropdown
-              %a.dropdown-toggle{ data: { toggle: "dropdown" } }
+              %a.dropdown-toggle{ data: { toggle: "dropdown" }, href: '#' }
                 = current_user.name
                 %b.caret
               %ul.dropdown-menu
