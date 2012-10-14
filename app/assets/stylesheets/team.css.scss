@@ -55,9 +55,19 @@ li.team_user{
     .name { color: #666; font-weight: bold; }
     .location {
       color: #999;
+      padding-right: 45px;
+      position: relative;
 
       .place { }
-      .distance { }
+      .distance {
+        background-color: #0088CC;
+        border-radius: 4px 4px 4px 4px;
+        color: white;
+        padding: 0 2px;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
     }
   }
 }
