@@ -1,8 +1,8 @@
 .container-fluid.teams-container
   .row-fluid.teams-show
-    .span2.sidebar
+    .span3.sidebar
       = render "sidebar"
-    .span10#map_container
+    .span9#map_container
       #map_canvas
 
 - if current_user && current_user.team == current_team

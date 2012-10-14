@@ -27,8 +27,12 @@
   height: 100%;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
+  .navbar .btn {
+    margin: 0;
+  }
   .l-page__container {
     height: 100%;
+    overflow: auto;
     > .container {
       padding: 20px 0;
     }

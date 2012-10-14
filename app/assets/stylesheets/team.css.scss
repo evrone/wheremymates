@@ -50,13 +50,21 @@ li.team_user{
   .info {
     padding-left: 50px;
 
-    .name { color: #666; font-weight: bold; }
+    .name { color: #666; font-weight: bold;
+      height: 20px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
     .location {
       color: #999;
       padding-right: 45px;
       position: relative;
 
-      .place { }
+      .place {
+        height: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+      }
       .distance {
         background-color: #0088CC;
         border-radius: 4px 4px 4px 4px;
