@@ -16,7 +16,7 @@
                 = link_to "Leave", [:leave, my_team], :confirm => 'Are you sure?', :method => :put
             - if current_user.team
               %li
-                %a#invite-menu-link{data: {need_popover: current_user.team.users.one?.to_s, placement: "bottom", title: "Invite mates", content: "Now invite other members of your team to see tham on the map", trigger: "manual"}} Invite mates
+                %a#invite-menu-link{data: {need_popover: current_user.team.users.one?.to_s, placement: "bottom", title: "Invite mates", content: "Now invite other members of your team to see them on the map", trigger: "manual"}} Invite mates
 
         - if current_user
           %ul.nav.pull-right
