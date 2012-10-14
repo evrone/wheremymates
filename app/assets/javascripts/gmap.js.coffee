@@ -58,6 +58,7 @@ class Gmap
   icon: (src) ->
     new google.maps.MarkerImage src, new google.maps.Size(32,32), null, null, new google.maps.Size(32,32)
 
+  # ============ #
   renderInfo: ->
     geocoder = new google.maps.Geocoder()
     for mate in @mates
@@ -66,8 +67,10 @@ class Gmap
         if mate.id == @me.id
         else
           geocoder.geocode {location: mate.geo}, @renderPlace.bind(elem)
+          if @me && @me.geo
+            dist = Math.round(google.maps.geometry.spherical.computeDistanceBetween(@me.geo, mate.geo)/1000)
+            elem.find('.location').html "" + dist + "km from you"
 
-  # ============ #
   renderPlace: (results, status) ->
     checkPlace = (address) ->
       places_list = ['country', 'administrative_area_level_1',
