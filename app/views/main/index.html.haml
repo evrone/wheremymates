@@ -1,4 +1,4 @@
 %h1 Promo page
 
 - Team.find_each do |team|
-  = link_to team.name, :team_id => team.id
+  = link_to team.name, team
