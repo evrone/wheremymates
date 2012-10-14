@@ -23,7 +23,13 @@ class Gmap
     @markerZindex = 0
 
   initClusterer: ->
-    @clusterer = new MarkerClusterer @map
+    @clusterer = new MarkerClusterer @map, [],
+      styles: [
+        height: 52
+        width: 53
+        url: '/assets/cluster1.png'
+        textColor: 'white'
+      ]
     google.maps.event.addListener @clusterer, 'mouseover', (cluster) =>
       if cluster.info
         if cluster.toid
