@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
-  before_filter :require_user_in_team, only: [:my]
-  before_filter :authenticate_user!, :only => [:create, :my, :join]
+  before_filter :require_user_in_team, only: [:my, :destroy]
+  before_filter :authenticate_user!, :only => [:create, :my, :join, :destroy]
 
   respond_to :html, :json
 
@@ -34,6 +34,11 @@ class TeamsController < ApplicationController
     team = Team.find_by_invitation_key!(params[:invitation_key])
     current_user.update_attribute(:team, team)
     redirect_to team
+  end
+
+  def destroy
+    current_user.team.destroy
+    redirect_to root_path
   end
 
   private

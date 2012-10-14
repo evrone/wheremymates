@@ -12,5 +12,5 @@ WhereMyMates::Application.routes.draw do
 
   match 'teams/:invitation_key/join', to: 'teams#join', as: 'join_to_team'
   get '/teams/my', to: 'teams#my'
-  resources :teams, only: [:new, :show, :create]
+  resources :teams, only: [:new, :show, :create, :destroy]
 end

@@ -13,11 +13,7 @@
             %li
               = link_to "My Team: #{my_team.name}", my_team
             %li
-              = link_to_function "Edit Team", "$(this).parents('ul').find('li.edit_my_team').toggleClass('hide')"
-            %li.edit_my_team.hide
-              = form_for my_team, :url => teams_path, :method => :post do |form|
-                = form.text_field :name
-                = form.submit 'ok'
+              = link_to "Leave", my_team, :confirm => 'Are you sure?', :method => :delete
           - else
             %li
               = link_to_function "Create Your Team!", "$(this).parents('ul').find('li.create_my_team').toggleClass('hide')"
