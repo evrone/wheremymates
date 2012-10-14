@@ -6,3 +6,5 @@ jQuery ->
 $('.join_link').focus -> this.select()
 
 $(".carousel").carousel()
+
+window.rumbleBannerPlacement = "bottom"
