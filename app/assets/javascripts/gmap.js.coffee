@@ -1,7 +1,7 @@
 class Gmap
   constructor: ->
-    @map = @renderMap()
-    @bounds = new google.maps.LatLngBounds()
+    @initMap()
+    @initClusterer()
     @me = window.current_user || {}
     @mates = if window.team_mates then window.team_mates else []
     @renderMates()
@@ -9,16 +9,29 @@ class Gmap
     @fitBounds()
     @bindTeam()
     @detectUser() if window.request_geo
-    @markerZindex = 0
     @renderInfo()
 
-  renderMap: ->
+  initMap: ->
     myOptions =
       minZoom: 2
       maxZoom: 18
       zoom: 12
       mapTypeId: google.maps.MapTypeId.TERRAIN
-    new google.maps.Map document.getElementById("map_canvas"), myOptions
+    @map = new google.maps.Map document.getElementById("map_canvas"), myOptions
+    @bounds = new google.maps.LatLngBounds()
+    @markerZindex = 0
+
+  initClusterer: ->
+    @clusterer = new MarkerClusterer @map
+    google.maps.event.addListener @clusterer, 'mouseover', (cluster) =>
+      cluster_info = $('<div></div>')
+      cluster_info.append("<img src='" + marker.mate.avatar_url + "' />") for marker in cluster.getMarkers()
+      cluster.info = new google.maps.InfoWindow
+        map: @map
+        position: cluster.getCenter()
+        content: cluster_info.get(0)
+    google.maps.event.addListener @clusterer, 'mouseout', (cluster) =>
+      cluster.info.close()
 
   fitBounds: ->
     @map.fitBounds(@bounds)
@@ -38,6 +51,8 @@ class Gmap
         map: @map
         title: mate.name
         icon: @icon(mate.avatar_url)
+      mate.marker.mate = mate
+      @clusterer.addMarker mate.marker
       @bounds.extend(mate.geo)
       @bindMate(mate)
 
@@ -54,6 +69,7 @@ class Gmap
           icon: if @me.in_team then @icon(@me.in_team.avatar_url) else null
         if @me.in_team
           @me.in_team.marker = @me.marker
+          @me.marker.mate = @me.in_team
           @me.in_team.geo = @me.geo
           @bindMate(@me.in_team)
       @bounds.extend(@me.geo)
