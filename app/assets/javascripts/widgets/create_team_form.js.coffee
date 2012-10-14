@@ -4,10 +4,6 @@ class CreateTeamFormWidget
     @form = @dialog.find("form")
     @dialog.modal()
 
-    @submit_button = @form.find(".btn-primary")
-    @submit_button.click =>
-      @create()
-      false
     @form.submit =>
       @create()
       false
