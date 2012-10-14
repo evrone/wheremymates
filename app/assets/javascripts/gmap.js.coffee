@@ -8,6 +8,7 @@ class Gmap
     @renderMe()
     @fitBounds()
     @detectUser() if window.request_geo
+    @markerZindex = 0
     @renderInfo()
 
   renderMap: ->
@@ -63,6 +64,7 @@ class Gmap
         else
           geocoder.geocode {location: mate.geo}, @renderPlace.bind(elem)
 
+  # ============ #
   renderPlace: (results, status) ->
     checkPlace = (address) ->
       places_list = ['country', 'administrative_area_level_1',
@@ -118,6 +120,10 @@ class Gmap
       setTimeout ->
         marker.setAnimation(null)
       , 700
+    elem.mouseenter ->
+      @markerZindex +=1
+      mate.marker.setZIndex @markerZindex
+
     google.maps.event.addListener mate.marker, 'mouseover', ->
       elem.addClass('highlight')
     google.maps.event.addListener mate.marker, 'mouseout', ->
