@@ -4,3 +4,5 @@ jQuery ->
   $("a[rel=tooltip]").tooltip()
 
 $('.join_link').focus -> this.select()
+
+$(".carousel").carousel()
