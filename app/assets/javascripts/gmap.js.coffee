@@ -126,12 +126,15 @@ class Gmap
     mate.elem = elem
     elem.data(mate: mate)
     elem.addClass('present')
-    elem.click ->
+    elem.click =>
       marker = mate.marker
-      marker.setAnimation(google.maps.Animation.BOUNCE)
-      setTimeout ->
-        marker.setAnimation(null)
-      , 700
+      if @map.getBounds().contains(mate.geo)
+        marker.setAnimation(google.maps.Animation.BOUNCE)
+        setTimeout ->
+          marker.setAnimation(null)
+        , 700
+      else
+        @map.panTo mate.geo
     elem.mouseenter ->
       @markerZindex +=1
       mate.marker.setZIndex @markerZindex
@@ -140,7 +143,6 @@ class Gmap
       elem.addClass('highlight')
     google.maps.event.addListener mate.marker, 'mouseout', ->
       elem.removeClass('highlight')
-
 
 $ ->
   if $('#map_canvas').length > 0 && google?
