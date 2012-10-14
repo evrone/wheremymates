@@ -1,0 +1,22 @@
+li.team_user{
+  height: 45px;
+
+  &.present{
+    cursor: pointer
+  }
+  &.highlight{
+    color: red
+  }
+
+  .avatar {
+    float: left;
+    img { width: 40px; }
+  }
+
+  .info {
+    padding-left: 50px;
+
+    .name { color: #666; font-weight: bold; }
+    .location { color: #999; }
+  }
+}
