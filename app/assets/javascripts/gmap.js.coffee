@@ -15,12 +15,14 @@ class Gmap
     myOptions =
       minZoom: 2
       maxZoom: 18
-      zoom: 6
+      zoom: 12
       mapTypeId: google.maps.MapTypeId.TERRAIN
     new google.maps.Map document.getElementById("map_canvas"), myOptions
 
   fitBounds: ->
     @map.fitBounds(@bounds)
+    google.maps.event.addListenerOnce @map, 'bounds_changed', =>
+      @map.setZoom(12) if @map.getZoom() > 12
 
   renderMates: ->
     @renderMate(mate) for mate in @mates
