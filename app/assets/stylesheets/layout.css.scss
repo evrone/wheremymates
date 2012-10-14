@@ -33,6 +33,11 @@
   .l-page__container {
     height: 100%;
     overflow: auto;
+    .top-teams {
+      .top-teams-list {
+        font-size: 18px;
+      }
+    }
     > .container {
       padding: 20px 0;
     }

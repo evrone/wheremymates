@@ -4,13 +4,19 @@
       .page-header
         %h1
           Your mates on the map!
-          %small Just add them
+          %small Just singup, create team and invite mates!
       .slideshow
         = image_tag "http://i.imm.io/HVh2.png"
 
-    .span3
-      %h3 Top 10 Teams
-      %ol
+    .span3.top-teams
+      %h2 Top 10 Teams
+      %ol.top-teams-list
         - @teams.find_each do |team|
-          %li= link_to "#{team.name} <span class=\"badge badge-info\">#{team.users_count}</span>".html_safe, team
+          %li
+            = link_to team do
+              = team.name
+            %span.badge.badge-info
+              %i.icon-user
+              = team.users_count
+
 
