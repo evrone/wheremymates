@@ -136,6 +136,11 @@ class Gmap
         , 700
       else
         @map.panTo mate.geo
+    elem.find('.distance').mouseenter =>
+      @distancePoly().setPath [@me.geo, mate.geo]
+      @distancePoly().setVisible(true)
+    elem.find('.distance').mouseleave =>
+      @distancePoly().setVisible(false)
     elem.mouseenter ->
       @markerZindex +=1
       mate.marker.setZIndex @markerZindex
@@ -144,6 +149,16 @@ class Gmap
       elem.addClass('highlight')
     google.maps.event.addListener mate.marker, 'mouseout', ->
       elem.removeClass('highlight')
+
+  distancePoly: ->
+    @distancePolyline ||= new google.maps.Polyline
+      clickable: false
+      geodesic: true
+      strokeColor: '#CC0000'
+      strokeOpacity: 0.8
+      strokeWeight: 3
+      map: @map
+      visible: false
 
   bindTeam: ->
     elem = $(".team_name")
