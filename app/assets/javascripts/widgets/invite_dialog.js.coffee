@@ -4,6 +4,7 @@ class InviteDialod
     @modal = $("#invite_modal")
     @menu_link.click =>
       @show()
+      false
 
     if @menu_link.data("need_popover")
       @menu_link.popover("show")
