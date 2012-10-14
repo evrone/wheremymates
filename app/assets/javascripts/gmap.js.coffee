@@ -150,8 +150,7 @@ class Gmap
     elem.addClass('present')
     elem.click =>
       marker = mate.marker
-      cluster = @findInCluster(marker)
-      if cluster
+      if cluster = @findInCluster(marker)
         google.maps.event.trigger @clusterer, 'mouseover', cluster
       else if @map.getBounds().contains(mate.geo)
         marker.setAnimation(google.maps.Animation.BOUNCE)
@@ -161,7 +160,11 @@ class Gmap
       else
         @map.panTo mate.geo
     elem.find('.distance').mouseenter =>
-      @distancePoly().setPath [@me.geo, mate.geo]
+      if cluster = @findInCluster(mate.marker)
+        target = cluster.getCenter()
+      else
+        target = mate.geo
+      @distancePoly().setPath [@me.geo, target]
       @distancePoly().setVisible(true)
     elem.find('.distance').mouseleave =>
       @distancePoly().setVisible(false)
