@@ -12,4 +12,4 @@ Team.create!(name: 'Heroku')
 
 User.create!(:name => 'test1', :team => evrone_team, latitude: 51.697402, longitude: 39.263077)
 User.create!(:name => 'test2', :team => evrone_team, latitude: 55.723810, longitude: 37.507324)
-User.create!(:name => 'test3')
+User.create!({latitude: 41.9137, longitude: 12.5205, name: "Kir Shatrov", uid: "1082591060", team: evrone_team, city: "Rome", country: "Italy"}, without_protection: true)
