@@ -3,7 +3,8 @@
 - if current_user && current_user.team == current_team
   .alert
     %button(type="button" class="close" data-dismiss="alert") x
-    Now invite other members of your team to see tham on the map by link: #{join_to_team_url(:invitation_key => current_user.team.invitation_key)}
+    Now invite other members of your team to see tham on the map by link:
+    = text_field_tag :join_link, join_to_team_url(:invitation_key => current_user.team.invitation_key), :class => 'join_link'
 
   - if current_user.has_not_account?(:foursquare)
     .alert
