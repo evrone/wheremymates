@@ -12,7 +12,7 @@
       - current_team.users.find_each do |user|
         %li.team_user{:data => {:id => user.id}}
           .avatar
-            = image_tag("http://graph.facebook.com/#{user.uid}/picture")
+            = image_tag(user.avatar_url, alt: "Avatar")
           .info
             .name= user.name
             .location
