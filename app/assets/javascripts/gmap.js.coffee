@@ -125,7 +125,7 @@ class Gmap
 
   renderDiff: (elem, distance_km) ->
     distance = elem.find('.distance')
-    distance.text('' + distance_km + 'km')
+    distance.text("#{distance_km} km")
 
   # ============ #
   detectUser: ->
