@@ -14,9 +14,6 @@
                 = link_to "My Team: #{my_team.name}", my_team
               %li
                 = link_to "Leave", [:leave, my_team], :confirm => 'Are you sure?', :method => :put
-            - else
-              %li
-                = link_to "Create Your Team!", new_team_path
 
         - if current_user
           %ul.nav.pull-right
