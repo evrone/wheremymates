@@ -1,5 +1,23 @@
+.teams-container {
+  height: 100%;
+  .teams-show {
+    height: 100%;
+  }
+}
+
 .sidebar {
+  position: relative;
+  padding-bottom: 20px;
+  height: 100%;
   h3 { margin-top: 0;}
+  .copyright {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+  }
+  .nav-list {
+    padding: 0;
+  }
 }
 
 .team_name{

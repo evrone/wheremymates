@@ -1,10 +1,10 @@
-.row
-  .span9
-    #map_container
+.container-fluid.teams-container
+  .row-fluid.teams-show
+    .span2.sidebar
+      = render "sidebar"
+      .copyright &copy; #{link_to "Evrone", "evrone.com", target: "_blank"} 2012
+    .span10#map_container
       #map_canvas
-
-  .span3.sidebar
-    = render "sidebar"
 
 - if current_user
   :javascript

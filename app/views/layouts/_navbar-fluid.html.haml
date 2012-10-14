@@ -1,0 +1,39 @@
+.navbar.navbar-fixed-top.navbar-inverse
+  .navbar-inner
+    .container-fluid
+      %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      = link_to "WhereMyMates", root_path, :class => 'brand'
+      .container-fluid.nav-collapse
+        %ul.nav
+          - my_team = current_user.team if current_user
+          - if my_team
+            %li
+              = link_to "My Team: #{my_team.name}", my_team
+            %li
+              = link_to_function "Edit Team", "$(this).parents('ul').find('li.edit_my_team').toggleClass('hide')"
+            %li.edit_my_team.hide
+              = form_for my_team, :url => teams_path, :method => :post do |form|
+                = form.text_field :name
+                = form.submit 'ok'
+
+            %li= invite_link("Invite member!")
+          - else
+            %li
+              = link_to_function "Create Your Team!", "$(this).parents('ul').find('li.create_my_team').toggleClass('hide')"
+            %li.create_my_team.hide
+              = form_for Team.new do |form|
+                = form.text_field :name
+                = form.submit 'ok'
+        - if current_user
+          %ul.nav.pull-right
+            %li.dropdown
+              %a.dropdown-toggle{ data: { toggle: "dropdown" } }
+                = current_user.name
+                %b.caret
+              %ul.dropdown-menu
+                %li= link_to "Sign out", signout_path
+        - else
+          %p.navbar-text.pull-right= link_to "Sign in with Facebook", signin_path, class: "navbar-link"
