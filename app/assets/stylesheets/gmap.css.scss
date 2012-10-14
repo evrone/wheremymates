@@ -4,3 +4,14 @@
 }
 
 #map_canvas{ height: 100%; }
+
+.mates_popup{
+  max-width: 240px;
+  .mate_info{
+    width: 80px;
+    float: left;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px
+  }
+}

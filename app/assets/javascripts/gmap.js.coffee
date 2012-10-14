@@ -25,15 +25,27 @@ class Gmap
   initClusterer: ->
     @clusterer = new MarkerClusterer @map
     google.maps.event.addListener @clusterer, 'mouseover', (cluster) =>
-      cluster.info.close() if cluster.info
-      cluster_info = $('<div></div>')
-      cluster_info.append("<img src='" + marker.mate.avatar_url + "' />") for marker in cluster.getMarkers()
+      if cluster.info
+        if cluster.toid
+          clearTimeout(cluster.toid)
+          cluster.toid = null
+        return
+      cluster_info = $('<div></div>').addClass('mates_popup')
+
+      for marker in cluster.getMarkers()
+        container = $('<div></div>').addClass('mate_info').appendTo cluster_info
+        container.append("<div class='mate_image'><img src='#{marker.mate.avatar_url}' /></div>")
+        container.append("<span>#{marker.mate.name}</span>")
       cluster.info = new google.maps.InfoWindow
         map: @map
         position: cluster.getCenter()
         content: cluster_info.get(0)
     google.maps.event.addListener @clusterer, 'mouseout', (cluster) =>
-      cluster.info.close() if cluster.info
+      if cluster.info
+        cluster.toid = setTimeout ->
+          cluster.info.close()
+          cluster.info = null
+        , 1000
     google.maps.event.addListener @clusterer, 'click', (cluster) =>
       cluster.info.close() if cluster.info
 
@@ -54,7 +66,6 @@ class Gmap
       mate.marker = new google.maps.Marker
         position: mate.geo
         map: @map
-        title: mate.name
         icon: @icon(mate.avatar_url)
       mate.marker.mate = mate
       @clusterer.addMarker mate.marker
@@ -70,7 +81,6 @@ class Gmap
         @me.marker = new google.maps.Marker
           position: @me.geo
           map: @map
-          title: @me.name
           icon: if @me.in_team then @icon(@me.in_team.avatar_url) else null
         if @me.in_team
           @me.in_team.marker = @me.marker
@@ -187,9 +197,26 @@ class Gmap
       mate.marker.setZIndex @markerZindex
 
     google.maps.event.addListener mate.marker, 'mouseover', ->
-      elem.addClass('highlight')
+      if mate.marker.info
+        if mate.marker.toid
+          clearTimeout(mate.marker.toid)
+          mate.marker.toid = null
+        return
+      marker_info = $('<div></div>').addClass('mates_popup')
+      container = $('<div></div>').addClass('mate_info').appendTo marker_info
+      container.append("<div class='mate_image'><img src='#{mate.avatar_url}' /></div>")
+      container.append("<span>#{mate.name}</span>")
+
+      mate.marker.info = new google.maps.InfoWindow
+        map: @map
+        position: mate.marker.getPosition()
+        content: marker_info.get(0)
     google.maps.event.addListener mate.marker, 'mouseout', ->
-      elem.removeClass('highlight')
+      if mate.marker.info
+        mate.marker.toid = setTimeout ->
+          mate.marker.info.close()
+          mate.marker.info = null
+        , 1000
 
   findInCluster: (marker) ->
     for cluster in @clusterer.getClusters()
