@@ -101,7 +101,7 @@ class Gmap
                      'administrative_area_level_2', 'administrative_area_level_3']
       for component in address
         for ctype in component.types
-          return component.short_name if places_list.indexOf(ctype)!=-1
+          return component.short_name if places_list.indexOf(ctype)!=-1 && component.short_name != ''
 
     if status == google.maps.GeocoderStatus.OK
       place_name = checkPlace(results[0].address_components)
