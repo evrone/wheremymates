@@ -33,7 +33,9 @@ class Gmap
         position: cluster.getCenter()
         content: cluster_info.get(0)
     google.maps.event.addListener @clusterer, 'mouseout', (cluster) =>
-      cluster.info.close()
+      cluster.info.close() if cluster.info
+    google.maps.event.addListener @clusterer, 'click', (cluster) =>
+      cluster.info.close() if cluster.info
 
   fitBounds: ->
     return if @bounds.isEmpty()
