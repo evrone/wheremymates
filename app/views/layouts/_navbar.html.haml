@@ -17,6 +17,8 @@
             - if current_user.team
               %li
                 %a#invite-menu-link(href='#'){data: {need_popover: need_popover.to_s, placement: "bottom", title: "Invite mates", content: "Now invite your mates to see them on the map", trigger: "manual"}} Invite mates
+            - else
+              %li= link_to "Create team", new_team_path
         - if current_user
           %ul.nav.pull-right
             %li.dropdown
