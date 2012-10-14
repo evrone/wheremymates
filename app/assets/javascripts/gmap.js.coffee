@@ -27,7 +27,7 @@ class Gmap
       styles: [
         height: 52
         width: 53
-        url: '/assets/cluster1.png'
+        url: '/assets/c1.png'
         textColor: 'white'
       ]
     google.maps.event.addListener @clusterer, 'mouseover', (cluster) =>
