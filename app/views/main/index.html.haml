@@ -19,12 +19,10 @@
       %h2 Top 10 Teams
       %ol.top-teams-list
         - @teams.find_each do |team|
-          - 5.times do
-            %li
-              = link_to team do
-                = team.name
-              %span.badge.badge-info
-                %i.icon-user
+          %li
+            = link_to team.name, team
+            %span.badge.badge-info
+              %i.icon-user
                 = team.users_count
 
 
