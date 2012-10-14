@@ -36,10 +36,15 @@ class TeamsController < ApplicationController
     redirect_to team
   end
 
-  def destroy
-    current_user.team.destroy
+  def leave
+    current_user.update_attribute(:team, nil)
     redirect_to root_path
   end
+
+  #def destroy
+  #  current_user.team.destroy
+  #  redirect_to root_path
+  #end
 
   private
 

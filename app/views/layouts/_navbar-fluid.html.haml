@@ -13,7 +13,7 @@
             %li
               = link_to "My Team: #{my_team.name}", my_team
             %li
-              = link_to "Leave Team", my_team, :confirm => 'Are you sure?', :method => :delete
+              = link_to "Leave Team", [:leave, my_team], :confirm => 'Are you sure?', :method => :put
           - else
             %li
               = link_to_function "Create Your Team!", "$(this).parents('ul').find('li.create_my_team').toggleClass('hide')"
