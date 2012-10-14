@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 
   has_many :accounts, dependent: :destroy
 
-  belongs_to :team
+  belongs_to :team, :counter_cache => true
 
   def self.from_omniauth(auth)
     where(auth.slice("uid")).first || create_from_omniauth(auth)

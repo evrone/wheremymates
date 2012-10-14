@@ -11,6 +11,6 @@
     .span3
       %h3 Top 10 Teams
       %ol
-        - Team.find_each do |team|
-          %li= link_to team.name, team
+        - @teams.find_each do |team|
+          %li= link_to "#{team.name} <span class=\"badge badge-info\">#{team.users_count}</span>".html_safe, team
 
