@@ -34,7 +34,7 @@ class Gmap
         position: mate.geo
         map: @map
         title: mate.name
-        icon: mate.avatar_url
+        icon: @icon(mate.avatar_url)
       @bounds.extend(mate.geo)
       @bindMate(mate)
 
@@ -48,12 +48,15 @@ class Gmap
           position: @me.geo
           map: @map
           title: @me.name
-          icon: if @me.in_team then @me.in_team.avatar_url else null
+          icon: if @me.in_team then @icon(@me.in_team.avatar_url) else null
         if @me.in_team
           @me.in_team.marker = @me.marker
           @me.in_team.geo = @me.geo
           @bindMate(@me.in_team)
       @bounds.extend(@me.geo)
+
+  icon: (src) ->
+    new google.maps.MarkerImage src, new google.maps.Size(32,32), null, null, new google.maps.Size(32,32)
 
   renderInfo: ->
     geocoder = new google.maps.Geocoder()
