@@ -16,11 +16,7 @@
                 = link_to "Leave", [:leave, my_team], :confirm => 'Are you sure?', :method => :put
             - else
               %li
-                = link_to_function "Create Your Team!", "$(this).parents('ul').find('li.create_my_team').toggleClass('hide')"
-              %li.create_my_team.hide
-                = form_for Team.new do |form|
-                  = form.text_field :name
-                  = form.submit 'ok'
+                = link_to "Create Your Team!", new_team_path
 
         - if current_user
           %ul.nav.pull-right

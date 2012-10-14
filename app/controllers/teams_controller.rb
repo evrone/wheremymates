@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
   before_filter :require_user_in_team, only: [:my, :leave]
-  before_filter :authenticate_user!, :only => [:create, :my, :join, :leave]
+  before_filter :authenticate_user!, :only => [:new, :create, :my, :join, :leave]
 
   respond_to :html, :json
 
@@ -33,6 +33,7 @@ class TeamsController < ApplicationController
   def join
     team = Team.find_by_invitation_key!(params[:invitation_key])
     current_user.update_attribute(:team, team)
+    team.destroy if team.users.count <= 0
     redirect_to team
   end
 
