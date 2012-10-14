@@ -90,7 +90,7 @@ class Gmap
     for mate in @mates
       if mate.latitude && mate.longitude
         elem = mate.elem
-        if n > 3
+        if n > 1
           @geocodeQueue.push(mate)
         else
           @geocodeMate(mate)
@@ -111,7 +111,10 @@ class Gmap
         place = mate.elem.find('.place')
         place.text(place_name)
     if nextmate = @geocodeQueue.pop()
-      @geocodeMate(nextmate)
+      setTimeout =>
+        @geocodeMate(nextmate)
+      , 1000
+
 
   checkPlace: (address) ->
     places_list = ['country', 'administrative_area_level_1',
