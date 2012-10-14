@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
-  before_filter :require_user_in_team, only: [:my, :destroy]
-  before_filter :authenticate_user!, :only => [:create, :my, :join, :destroy]
+  before_filter :require_user_in_team, only: [:my, :leave]
+  before_filter :authenticate_user!, :only => [:create, :my, :join, :leave]
 
   respond_to :html, :json
 
@@ -37,7 +37,12 @@ class TeamsController < ApplicationController
   end
 
   def leave
-    current_user.update_attribute(:team, nil)
+    team = Team.find(params[:id])
+    if current_user.team == team
+      current_user.update_attribute(:team, nil)
+      team.destroy if team.users.count <= 0
+    end
+
     redirect_to root_path
   end
 
