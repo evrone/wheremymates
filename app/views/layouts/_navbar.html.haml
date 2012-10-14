@@ -7,20 +7,21 @@
         %span.icon-bar
       = link_to "WhereMyMates", root_path, :class => 'brand'
       .nav-collapse{class: (controller_name == "main" ? "container" : "container-fluid" )}
-        %ul.nav
-          - my_team = current_user.team if current_user
-          - if my_team
-            %li
-              = link_to "My Team: #{my_team.name}", my_team
-            %li
-              = link_to "Leave", [:leave, my_team], :confirm => 'Are you sure?', :method => :put
-          - else
-            %li
-              = link_to_function "Create Your Team!", "$(this).parents('ul').find('li.create_my_team').toggleClass('hide')"
-            %li.create_my_team.hide
-              = form_for Team.new do |form|
-                = form.text_field :name
-                = form.submit 'ok'
+        - if current_user
+          %ul.nav
+            - if my_team = current_user.team
+              %li
+                = link_to "My Team: #{my_team.name}", my_team
+              %li
+                = link_to "Leave", [:leave, my_team], :confirm => 'Are you sure?', :method => :put
+            - else
+              %li
+                = link_to_function "Create Your Team!", "$(this).parents('ul').find('li.create_my_team').toggleClass('hide')"
+              %li.create_my_team.hide
+                = form_for Team.new do |form|
+                  = form.text_field :name
+                  = form.submit 'ok'
+
         - if current_user
           %ul.nav.pull-right
             %li.dropdown
