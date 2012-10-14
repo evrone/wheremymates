@@ -83,3 +83,11 @@ li.team_user{
 .join_link{
   width: 450px;
 }
+
+.foursquare-alert{
+  position: fixed;
+  left: 50%;
+  margin: 20px 0 0 -150px;
+  width: 300px;
+  z-index: 9999;
+}

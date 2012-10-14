@@ -1,12 +1,5 @@
 %h3.team_name= @team.name
 
-- if current_user && current_user.team == current_team
-  - if current_user.has_not_account?(:foursquare)
-    .alert
-      %button(type="button" class="close" data-dismiss="alert") x
-      = link_to(image_tag("connect-foursquare.png", alt: "Connect to Foursquare"), "/auth/foursquare")
-      to help us update your location while you are offline.
-
 - if current_team.users.any?
   .sidebar-nav
     %ul.nav.nav-list.current_team
