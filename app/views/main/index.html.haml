@@ -1,4 +1,8 @@
-%h1 Promo page
+.hero-unit
+  %h1 Your mates on the map!
+  %p This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+  %p
+    %a(class="btn btn-primary btn-large" href="/teams/1") See example
 
 - Team.find_each do |team|
   = link_to team.name, team
