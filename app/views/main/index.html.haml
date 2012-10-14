@@ -4,7 +4,7 @@
       .page-header
         %h1
           Your mates on the map!
-          %small Just singup, create team and invite mates!
+          %small Singup, create team and invite mates!
       .carousel.slide#HowItWorks
         / Carousel items
         .carousel-inner
@@ -19,11 +19,12 @@
       %h2 Top 10 Teams
       %ol.top-teams-list
         - @teams.find_each do |team|
-          %li
-            = link_to team do
-              = team.name
-            %span.badge.badge-info
-              %i.icon-user
-              = team.users_count
+          - 5.times do
+            %li
+              = link_to team do
+                = team.name
+              %span.badge.badge-info
+                %i.icon-user
+                = team.users_count
 
 

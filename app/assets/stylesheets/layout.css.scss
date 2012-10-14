@@ -36,6 +36,9 @@
     .top-teams {
       .top-teams-list {
         font-size: 18px;
+        li {
+          line-height: 30px;
+        }
       }
     }
     > .container {
