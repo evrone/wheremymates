@@ -8,6 +8,9 @@ class CreateTeamFormWidget
     @submit_button.click =>
       @create()
       false
+    @form.submit =>
+      @create()
+      false
 
   create: ->
     @post_data(@close)
