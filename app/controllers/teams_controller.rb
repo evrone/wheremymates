@@ -1,5 +1,4 @@
 class TeamsController < ApplicationController
-  #before_filter :require_team, only: [:show]
   before_filter :authenticate_user!, :only => [:create]
 
   def show
@@ -21,14 +20,5 @@ class TeamsController < ApplicationController
 
     redirect_to root_path
   end
-
-  private
-
-  #def require_team
-  #  unless current_team
-  #    redirect_to root_url, alert: "Team required."
-  #    false
-  #  end
-  #end
 
 end
