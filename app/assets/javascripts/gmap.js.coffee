@@ -7,6 +7,7 @@ class Gmap
     @renderMates()
     @renderMe()
     @fitBounds()
+    @bindTeam()
     @detectUser() if window.request_geo
     @markerZindex = 0
     @renderInfo()
@@ -143,6 +144,10 @@ class Gmap
       elem.addClass('highlight')
     google.maps.event.addListener mate.marker, 'mouseout', ->
       elem.removeClass('highlight')
+
+  bindTeam: ->
+    elem = $(".team_name")
+    elem.click => @fitBounds()
 
 $ ->
   if $('#map_canvas').length > 0 && google?

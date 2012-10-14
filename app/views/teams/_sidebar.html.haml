@@ -1,4 +1,4 @@
-%h3= @team.name
+%h3.team_name= @team.name
 
 - if current_user && current_user.has_not_account?(:foursquare)
   .alert
