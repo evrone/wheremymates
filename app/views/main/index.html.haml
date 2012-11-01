@@ -30,9 +30,9 @@
         %br
         %br
 
-      %h2 Top 10 Teams
+      %h2 Teams
       %ol.top-teams-list
-        - @teams.find_each do |team|
+        - @teams.each do |team|
           %li
             = link_to team.name, team
             %span.badge.badge-info

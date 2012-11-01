@@ -35,9 +35,14 @@
     overflow: auto;
     .top-teams {
       .top-teams-list {
+        height: 330px;
+        overflow: hidden;
         font-size: 18px;
         li {
           line-height: 30px;
+        }
+        &:hover {
+          overflow: auto;
         }
       }
     }
