@@ -1,115 +1,55 @@
-require 'bundler/capistrano'
-
-# This capistrano deployment recipe is made to work with the optional
-# StackScript provided to all Rails Rumble teams in their Linode dashboard.
-#
-# After setting up your Linode with the provided StackScript, configuring
-# your Rails app to use your GitHub repository, and copying your deploy
-# key from your server's ~/.ssh/github-deploy-key.pub to your GitHub
-# repository's Admin / Deploy Keys section, you can configure your Rails
-# app to use this deployment recipe by doing the following:
-#
-# 1. Add `gem 'capistrano'` to your Gemfile.
-# 2. Run `bundle install --binstubs --path=vendor/bundles`.
-# 3. Run `bin/capify .` in your app's root directory.
-# 4. Replace your new config/deploy.rb with this file's contents.
-# 5. Configure the two parameters in the Configuration section below.
-# 6. Run `git commit -a -m "Configured capistrano deployments."`.
-# 7. Run `git push origin master`.
-# 8. Run `bin/cap deploy:setup`.
-# 9. Run `bin/cap deploy:migrations` or `bin/cap deploy`.
-#
-# Note: When deploying, you'll be asked to enter your server's root
-# password. To configure password-less deployments, see below.
-
-#############################################
-##                                         ##
-##              Configuration              ##
-##                                         ##
-#############################################
-
-GITHUB_REPOSITORY_NAME = 'r12-team-422'
-LINODE_SERVER_HOSTNAME = '178.79.145.253'
-
-#############################################
-#############################################
-
-# General Options
-
-set :bundle_flags,               "--deployment"
-
-set :application,                "railsrumble"
-set :deploy_to,                  "/var/www/apps/railsrumble"
-set :normalize_asset_timestamps, false
-set :rails_env,                  "production"
-
-set :user,                       "root"
-set :runner,                     "www-data"
-set :admin_runner,               "www-data"
-
-# Password-less Deploys (Optional)
-#
-# 1. Locate your local public SSH key file. (Usually ~/.ssh/id_rsa.pub)
-# 2. Execute the following locally: (You'll need your Linode server's root password.)
-#
-#    cat ~/.ssh/id_rsa.pub | ssh root@LINODE_SERVER_HOSTNAME "cat >> ~/.ssh/authorized_keys"
-#
-# 3. Uncomment the below ssh_options[:keys] line in this file.
-#
-# ssh_options[:keys] = ["~/.ssh/id_rsa"]
-
-# SCM Options
-set :scm,        :git
-set :repository, "git@github.com:railsrumble/#{GITHUB_REPOSITORY_NAME}.git"
-set :branch,     "master"
-
-# Roles
-role :app, LINODE_SERVER_HOSTNAME
-role :db,  LINODE_SERVER_HOSTNAME, :primary => true
-
-# Add Configuration Files & Compile Assets
-after 'deploy:update_code' do
-  # Setup Configuration
-  run "cp #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-
-  # Compile Assets
-  run "cd #{release_path}; RAILS_ENV=production bundle exec rake assets:precompile"
-end
-
-# Restart Passenger
-deploy.task :restart, :roles => :app do
-  # Fix Permissions
-  sudo "chown -R www-data:www-data #{current_path}"
-  sudo "chown -R www-data:www-data #{latest_release}"
-  sudo "chown -R www-data:www-data #{shared_path}/bundle"
-  sudo "chown -R www-data:www-data #{shared_path}/log"
-
-  # Restart Application
-  run "touch #{current_path}/tmp/restart.txt"
-end
-
-
-### Custom
-
-## Campfire
-require 'capistrano/mountaintop'
-set :campfire_options, {
-  :account => "evrone",
-  :room => "4Square Rumble",
-  :user => "Hubot",
-  :token => "de1e2d10ccf72b212780712d7c074c0a8ae3b7c1",
-  :ssl => true
+# группа настроек для rbenv
+set :rbenv_ruby_version, "1.9.3-p194"
+set :default_environment, {
+  'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH",
+  'RBENV_VERSION' => rbenv_ruby_version
 }
+set :bundle_flags, "--deployment --quiet --binstubs --shebang ruby-local-exec"
+set :rake, "bin/rake"
+set :whenever_command, "bin/whenever"
+ssh_options[:forward_agent] = true
 
-at_exit do
-  log = fetch(:full_log)
-  if log.include?("rolling back")
-    campfire_room.speak "http://i.imgur.com/XNCA1.png"
-  else
-    campfire_room.speak "[capistrano] Deploy success"
+require 'bundler/capistrano'
+require 'capistrano_colors'
+
+set :application, "wheremymates"
+set :rails_env, "production"
+set :domain, "deploy@5.9.85.89"
+set :repository,  "git@github.com:evrone/wheremymates.git"
+set :branch, "master"
+set :use_sudo, false
+set :deploy_to, "/home/deploy/projects/#{application}"
+set :keep_releases, 3
+set :normalize_asset_timestamps, false
+set :scm, :git
+
+role :app, domain
+role :web, domain
+role :db,  domain, primary: true
+
+require "whenever/capistrano"
+
+namespace :deploy do
+  desc "Restart Unicorn and Resque"
+  task :restart do
+    run "sv restart ~/services/#{application}_unicorn"
+    run "sv restart ~/services/#{application}_resque"
+  end
+
+  desc "Make symlinks"
+  task :make_symlinks, roles: :app, except: { no_release: true } do
+    # Ставим симлинк на конфиги и загрузки
+    run "rm -f #{latest_release}/config/database.yml"
+    run "ln -s #{deploy_to}/shared/config/database.yml #{latest_release}/config/database.yml"
+
+    run "rm -rf #{latest_release}/public/uploads"
+    run "ln -s #{deploy_to}/shared/uploads #{latest_release}/public/uploads"
   end
 end
 
-## Cron
-set :whenever_command, "bundle exec whenever"
-require 'whenever/capistrano'
+after 'deploy:finalize_update', 'deploy:make_symlinks'
+
+after "deploy:update", "deploy:cleanup"
+
+require './config/boot'
+require 'airbrake/capistrano'
