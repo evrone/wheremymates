@@ -33,7 +33,7 @@ namespace :deploy do
   desc "Restart Unicorn and Resque"
   task :restart do
     run "sv restart ~/services/#{application}_unicorn"
-    run "sv restart ~/services/#{application}_resque"
+    #run "sv restart ~/services/#{application}_resque"
   end
 
   desc "Make symlinks"
@@ -53,3 +53,4 @@ after "deploy:update", "deploy:cleanup"
 
 require './config/boot'
 require 'airbrake/capistrano'
+load 'deploy/assets'
