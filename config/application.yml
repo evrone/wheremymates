@@ -1,9 +1,9 @@
 defaults: &defaults
-  foursquare_key: "QOUC2ILLMDQ2UQMFOPLQJ4OTGBDG2R1UKBSMH5M5G15BOZTF"
-  foursquare_secret: "ZXYLOXLP33Q2EAYJVJJLQFGFSW0VNB14NRH2FE4CKHOHVDEW"
+  foursquare_key: "WKBZNVCJI3TYZ5NGG0E1HGTGMKRFEBD00TOTHDDIUKHMDNQS"
+  foursquare_secret: "42M0A4Q5032OHNJKZD0V4LZ1DDSE3MZ4KCYDZMFWRXYCR4OX"
 
-  facebook_key: "376432435769798"
-  facebook_secret: "c39c4bf6abfa459abd55435a602ca736"
+  facebook_key: "532653103430025"
+  facebook_secret: "8a1bb09b869e4cf37318fa1b29b3652a"
 
 development:
   <<: *defaults
