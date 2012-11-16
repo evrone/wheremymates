@@ -10,10 +10,8 @@ WhereMyMates::Application.routes.draw do
     post :update_geo, :on => :member
   end
 
-  match 'teams/:invitation_key/join', to: 'teams#join', as: 'join_to_team'
+  match 'teams/:invitation_key/join', to: 'entries#create', :as => 'entry'
   resources :teams, only: [:new, :show, :create] do
-    member do
-      put :leave
-    end
+    resource :entry, :only => :destroy
   end
 end
