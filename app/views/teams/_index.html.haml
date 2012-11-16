@@ -1,0 +1,12 @@
+%table.table
+  %tr
+    %th Name
+    %th Invite link
+    %th Actions
+  - @teams.each do |team|
+    %tr
+      %td= team.name
+      %td
+        = text_field_tag :join_link, entry_url(:invitation_key => team.invitation_key), :class => 'join_link'
+      %td
+        = link_to "Leave this team", [team, :entry], :method => :delete, :class => 'btn btn-danger', :data => {:confirm => 'Are you sure?'}

@@ -14,7 +14,6 @@
                 %a#invite-menu-link(href='#'){data: {need_popover: need_popover.to_s, placement: "bottom", title: "Invite mates", content: "Now invite your mates to see them on the map", trigger: "manual"}} Invite mates
             - else
               %li= link_to "Create team", new_team_path
-        - if current_user
           %ul.nav.pull-right
             %li.dropdown
               %a.dropdown-toggle{ data: { toggle: "dropdown" }, href: '#' }
@@ -24,7 +23,7 @@
                 %li= link_to "Create new team..", new_team_path
                 - current_user.teams.each do |team|
                   %li= link_to team.name, team
-                %li= link_to 'Manage teams..', '#'
+                %li= link_to 'Manage teams..', teams_path, :remote => true
                 %li.divider
                 %li= link_to "Sign out", signout_path
         - else

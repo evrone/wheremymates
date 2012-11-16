@@ -1,0 +1,10 @@
+.modal.hide.fade.index_teams(tabindex="-1" role="dialog" aria-labelledby="index_teams_label" aria-hidden="true")
+  .modal-header
+    %button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
+    %h3#index_teams_label My teams management
+
+  .modal-body
+    = render 'index'
+
+  .modal-footer
+    %button.btn(data-dismiss="modal" aria-hidden="true") Close

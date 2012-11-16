@@ -10,6 +10,7 @@ gem 'unicorn'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'less-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
@@ -33,4 +34,5 @@ group :development do
   gem 'capistrano-mountaintop'
   gem 'dev_must_have', github: 'evrone/dev_must_have'
   gem 'quiet_assets'
+  gem 'therubyracer'
 end

@@ -1,7 +1,11 @@
 class TeamsController < ApplicationController
-  before_filter :authenticate_user!, :only => [:new, :create]
+  before_filter :authenticate_user!, :only => [:index, :new, :create]
 
-  respond_to :html, :json
+  respond_to :html, :json, :js
+
+  def index
+    @teams = current_user.teams
+  end
 
   def new
     @team = Team.new
