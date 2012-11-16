@@ -26,7 +26,7 @@ gem 'airbrake'
 gem 'foursquare2'
 gem 'settingslogic'
 gem 'whenever', :require => false
-gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails', '=2.1.3'
 
 gem 'omniauth-foursquare'
 gem 'omniauth-facebook'
