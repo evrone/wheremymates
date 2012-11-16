@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 
   def index
-    @teams = Team.all(conditions: "users_count > 0", order: "users_count DESC")
+    @teams = Team.where('entries_count > 0').order('entries_count DESC')
   end
 
 end

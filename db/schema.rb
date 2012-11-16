@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121014185605) do
+ActiveRecord::Schema.define(:version => 20121116173723) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -22,14 +22,25 @@ ActiveRecord::Schema.define(:version => 20121014185605) do
     t.string   "token",      :null => false
   end
 
+  add_index "accounts", ["provider"], :name => "index_accounts_on_provider"
   add_index "accounts", ["user_id"], :name => "index_accounts_on_user_id"
+
+  create_table "entries", :force => true do |t|
+    t.integer  "team_id"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "entries", ["team_id"], :name => "index_entries_on_team_id"
+  add_index "entries", ["user_id"], :name => "index_entries_on_user_id"
 
   create_table "teams", :force => true do |t|
     t.string   "name",                          :null => false
     t.string   "invitation_key",                :null => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
-    t.integer  "users_count",    :default => 0, :null => false
+    t.integer  "entries_count",  :default => 0, :null => false
   end
 
   add_index "teams", ["invitation_key"], :name => "index_teams_on_invitation_key", :unique => true

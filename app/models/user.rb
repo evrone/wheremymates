@@ -4,7 +4,13 @@ class User < ActiveRecord::Base
 
   has_many :accounts, dependent: :destroy
 
-  belongs_to :team, :counter_cache => true
+  has_many :entries, :dependent => :destroy
+  has_many :teams, :through => :entries
+
+  # dummy for the first time
+  def team
+    teams.first
+  end
 
   def self.from_omniauth(auth)
     where(auth.slice("uid")).first || create_from_omniauth(auth)

@@ -17,7 +17,7 @@ class CreateTeamFormWidget
     false
 
   close: ->
-    location.href = "/teams/my"
+    location.href = "/"
 
 $ ->
   form = $("#new_team_modal")
