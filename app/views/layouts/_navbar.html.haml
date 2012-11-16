@@ -9,12 +9,7 @@
       .nav-collapse{class: (controller_name == "main" ? "container" : "container-fluid" )}
         - if current_user
           %ul.nav
-            - if my_team = current_user.team
-              %li
-                = link_to "My Team", my_team
-              %li
-                = link_to "Leave", [my_team, :entry], :confirm => 'Are you sure?', :method => :delete
-            - if current_user.team
+            - if current_user.part_of? current_team
               %li
                 %a#invite-menu-link(href='#'){data: {need_popover: need_popover.to_s, placement: "bottom", title: "Invite mates", content: "Now invite your mates to see them on the map", trigger: "manual"}} Invite mates
             - else

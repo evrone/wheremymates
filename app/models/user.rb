@@ -12,6 +12,10 @@ class User < ActiveRecord::Base
     teams.first
   end
 
+  def part_of?(team)
+    team_ids.include? team.id if team.present?
+  end
+
   def self.from_omniauth(auth)
     where(auth.slice("uid")).first || create_from_omniauth(auth)
   end

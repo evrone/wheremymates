@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     if session[:return_path]
       session[:return_path]
     else
-      current_user.team ? current_user.team : new_team_path
+      current_user.teams.exists? ? root_path : new_team_path
     end
   end
 
@@ -33,9 +33,6 @@ class ApplicationController < ActionController::Base
 
   def current_team
     @current_team
-    #@current_team ||= Team.find_by_id(params[:team_id]) if params[:team_id]
-    #@current_team ||= current_user.team if current_user
-    #@current_team ||= Team.first
   end
   helper_method :current_team
 

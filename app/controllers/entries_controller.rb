@@ -3,7 +3,7 @@ class EntriesController < ApplicationController
 
   def create
     team = Team.find_by_invitation_key!(params[:invitation_key])
-    current_user.teams << team
+    current_user.teams << team unless current_user.part_of? team
     redirect_to team
   end
 

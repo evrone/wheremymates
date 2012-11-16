@@ -1,4 +1,4 @@
-- if current_user && current_user.team
+- if current_user && current_user.part_of?(current_team)
   .modal.hide#invite_modal(tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true")
     .modal-header
       %button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
@@ -8,7 +8,7 @@
       -#%p Just share this link and they will be added to your team after sign up.
       %p Share this link:
       %p
-        = text_field_tag :join_link, entry_url(:invitation_key => current_user.team.invitation_key), :class => 'join_link'
+        = text_field_tag :join_link, entry_url(:invitation_key => current_team.invitation_key), :class => 'join_link'
 
     .modal-footer
       %button.btn.btn-primary Done
