@@ -1,9 +1,8 @@
 container = $('#modals')
 modal = container.find('.index_teams')
 
-unless modal.length
+if modal.length
+  modal.modal('show')
+else
   container.append("<%=j render 'index_modal' %>")
-  modal = container.find('.index_teams')
-  modal.modal()
-
-modal.modal('show')
+  container.find('.index_teams').modal()

@@ -14,7 +14,6 @@ class InviteDialod
       @close()
 
   show: ->
-    @menu_link.popover("hide")
     @modal.modal("show")
 
   close: ->
@@ -24,3 +23,5 @@ $ ->
   invite_menu_link = $("#invite-menu-link")
   if invite_menu_link.length
     new InviteDialod(invite_menu_link)
+    $('body').on 'show', '.modal', ->
+      invite_menu_link.popover("hide")

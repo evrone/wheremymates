@@ -1,11 +1,11 @@
-.modal#new_team_modal(tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+.modal.hide.fade.new_team_modal(tabindex="-1" role="dialog" aria-labelledby="new_team_label" aria-hidden="true")
   = form_for(@team) do |f|
     .modal-header
       %button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
-      %h3#myModalLabel Now create your team
+      %h3#new_team_label Now create your team
 
     .modal-body
       = f.text_field :name, placeholder: "Choose name", required: true
 
     .modal-footer
-      %button.btn.btn-primary Create team
+      = f.submit "Create team", :class => 'btn btn-primary'
