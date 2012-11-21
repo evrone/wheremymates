@@ -160,7 +160,7 @@ class Gmap
     new google.maps.InfoWindow
       map: @map
       position: pos
-      content: 'You here!'
+      content: 'You are here!'
     $.post "/user/update_geo",
       user:
         latitude: position.coords.latitude
