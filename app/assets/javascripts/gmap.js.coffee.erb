@@ -28,7 +28,7 @@
         styles: [
           height: 52
           width: 53
-          url: '/assets/c1.png'
+          url: "<%= asset_url('c1.png') %>"
           textColor: 'white'
         ]
       google.maps.event.addListener @clusterer, 'mouseover', (cluster) =>
