@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
+<head>
+  <title>Тестовая страница</title>
+  <style>
+    body {
+      background-color: #eee;
+    }
+    #map_canvas {
+      margin: 100px;
+      background-color: #fff;
+    }
+  </style>
+  <script>
+    window.$ = "some another global variable"
+    inspect_dollar = function(){
+      var dollar = document.getElementById('dollar')
+      if(dollar){document.getElementById('dollar').innerHTML = $;}
+    }
+    window.setInterval(inspect_dollar, 1000);
+  </script>
+</head>
+<body>
+  <div class='container'>
+  <div id='dollar'></div>
+  <script src="http://wheremymates.dev/teams/13.js" type="text/javascript"></script>
+  <div id='map_canvas' style='width: 800px; height: 600px;'></div>
+  </div>
+</body>
+</html>
