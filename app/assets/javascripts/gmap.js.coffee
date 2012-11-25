@@ -248,4 +248,4 @@
       elem = $(".team_name")
       elem.click => @fitBounds()
 
-)(wmm_jQuery || jQuery)
+)(if wmm_jQuery? then wmm_jQuery else jQuery)

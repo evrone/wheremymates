@@ -21,6 +21,6 @@ document.write """
         return new Gmap;
       }
     });
-  })(wmm_jQuery || jQuery);
+  })(typeof wmm_jQuery !== 'undefined' && wmm_jQuery !== null ? wmm_jQuery : jQuery);
   </script>
 """
