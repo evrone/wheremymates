@@ -16,6 +16,10 @@ class TeamsController < ApplicationController
     set_current_team(@team)
   end
 
+  def embed
+    @team = Team.find(params[:id])
+  end
+
   def create
     team = Team.create!(params[:team])
     current_user.teams << team

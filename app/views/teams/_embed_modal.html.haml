@@ -1,0 +1,11 @@
+.modal.hide.fade.embed_team_modal(tabindex="-1" role="dialog" aria-labelledby="embed_team_label" aria-hidden="true")
+  .modal-header
+    %button(type="button" class="close" data-dismiss="modal" aria-hidden="true") ×
+    %h3#embed_team_label Get code for your website!
+
+  .modal-body
+    %p Copy and paste next html-code on your website, and your visitors can track this team on your pages:
+    = text_area_tag :code, "<script src='#{team_url @team, :format => :js}' type='text/javascript'></script>\n<div id='map_canvas' style='height: 600px;'></div>"
+
+  .modal-footer
+    %button.btn(data-dismiss="modal" aria-hidden="true") Close
