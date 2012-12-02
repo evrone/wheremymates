@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 gem 'mysql2'
 gem 'unicorn'
@@ -9,12 +9,6 @@ gem 'unicorn'
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
-  gem 'therubyracer'
-  gem 'less-rails'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -26,7 +20,10 @@ gem 'airbrake'
 gem 'foursquare2'
 gem 'settingslogic'
 gem 'whenever', :require => false
-gem 'twitter-bootstrap-rails', '=2.1.3'
+
+gem "therubyracer"
+gem "less-rails"
+gem "twitter-bootstrap-rails"
 
 gem 'omniauth-foursquare'
 gem 'omniauth-facebook'
