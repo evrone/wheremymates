@@ -1,5 +1,6 @@
 window.team = <%== current_team.as_json(:only => [:id, :name]).to_json %>
 window.team_mates = <%== current_team.users.as_json(:only => [:id, :name, :latitude, :longitude], :methods => :avatar_url).to_json %>
+window.wmm_embed = true
 
 document.write '<%= stylesheet_link_tag stylesheet_url("gmap") %>'
 

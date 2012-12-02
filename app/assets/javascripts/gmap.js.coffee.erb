@@ -8,9 +8,10 @@
       @renderMates()
       @renderMe()
       @fitBounds()
-      @bindTeam()
-      @detectUser() if window.request_geo
-      @renderInfo()
+      unless window.wmm_embed
+        @bindTeam()
+        @detectUser() if window.request_geo
+        @renderInfo()
 
     initMap: ->
       myOptions =
@@ -176,6 +177,10 @@
     # ============ #
 
     bindMate: (mate) ->
+      @bindMateInList(mate) unless window.wmm_embed
+      @bindMateOnMap(mate)
+
+    bindMateInList: (mate) ->
       elem = $('.team_user[data-id=' + mate.id + ']')
       mate.elem = elem
       elem.data(mate: mate)
@@ -208,6 +213,7 @@
         @markerZindex +=1
         mate.marker.setZIndex @markerZindex
 
+    bindMateOnMap: (mate) ->
       google.maps.event.addListener mate.marker, 'mouseover', ->
         if mate.marker.info
           if mate.marker.toid
