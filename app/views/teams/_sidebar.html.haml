@@ -10,6 +10,9 @@
             = image_tag(user.avatar_url, alt: "Avatar")
           .info
             .name= user.name
+            .links
+              = link_to user_path(user) do
+                %i.icon-user
             .location
               %span.place
               %span.distance

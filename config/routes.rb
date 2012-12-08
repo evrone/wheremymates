@@ -6,7 +6,8 @@ WhereMyMates::Application.routes.draw do
   match 'signout', to: 'sessions#destroy', as: 'signout'
   match 'signin', to: 'sessions#new', as: 'signin'
 
-  resource :user, :only => [] do
+  resources :users, :only => :show
+  resource :user, :only => [:edit, :update] do
     post :update_geo, :on => :member
   end
 

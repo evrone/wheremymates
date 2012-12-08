@@ -57,11 +57,21 @@ li.team_user{
 
   .info {
     padding-left: 50px;
+    position: relative;
 
-    .name { color: #666; font-weight: bold;
+    .name {
+      color: #666;
+      font-weight: bold;
       height: 20px;
       overflow: hidden;
       white-space: nowrap;
+    }
+
+    .links{
+      padding: 0 4px;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
     .location {
       color: #999;
