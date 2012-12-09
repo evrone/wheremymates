@@ -6,9 +6,8 @@
 .container
   %h3 Accounts
   %ul
-    %li= link_to "Facebook", "http://facebook.com/#{@user.uid}"
     - @user.accounts.each do |account|
-      %li= link_to "Foursquare", "http://foursquare.com/user/#{account.uid}"
+      %li= link_to account.provider_name, account.userpage_url
 
   %h3 Teams
   %ul

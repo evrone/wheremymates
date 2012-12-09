@@ -5,14 +5,14 @@ class SessionsController < ApplicationController
 
   def create
     auth = env['omniauth.auth']
-    if auth[:provider] == 'facebook'
+    if current_user
+      Account.from_omniauth(current_user, auth)
+      flash.notice = "#{auth[:provider]} account added."
+    else
       user = User.from_omniauth(auth)
 
       session[:user_id] = user.id
       flash.notice = "Signed in."
-    else
-      Account.from_omniauth(current_user, auth)
-      flash.notice = "#{auth[:provider]} account added."
     end
 
     redirect_to after_sign_in_path

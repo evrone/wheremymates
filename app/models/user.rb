@@ -7,24 +7,31 @@ class User < ActiveRecord::Base
   has_many :entries, :dependent => :destroy
   has_many :teams, :through => :entries
 
-  # dummy for the first time
-  def team
-    teams.first
+  class << self
+    def from_omniauth(auth)
+      account = Account.where(auth.slice("uid", "provider")).first
+      if account.present?
+        # Because we don't have facebook token yet =(
+        account.update_column :token, auth[:credentials][:token]
+        account.user
+      else
+        create_from_omniauth(auth)
+      end
+    end
+
+    def create_from_omniauth(auth)
+      transaction do
+        create! do |user|
+          user.name = auth["info"]["name"].presence || auth["info"]["nickname"]
+        end.tap do |user|
+          Account.create_from_omniauth(user, auth)
+        end
+      end
+    end
   end
 
   def part_of?(team)
     team_ids.include? team.id if team.present?
-  end
-
-  def self.from_omniauth(auth)
-    where(auth.slice("uid")).first || create_from_omniauth(auth)
-  end
-
-  def self.create_from_omniauth(auth)
-    create! do |user|
-      user.uid = auth["uid"]
-      user.name = auth["info"]["name"].presence || auth["info"]["nickname"]
-    end
   end
 
   def has_account?(provider)
@@ -40,9 +47,9 @@ class User < ActiveRecord::Base
   end
 
   def update_location
-    return unless accounts.any?
+    return unless accounts.foursquare.any?
 
-    location = accounts.first.get_location
+    location = accounts.foursquare.first.get_location
     if location
       should_replace_location = location_updated_at.nil? || location[:created_at] > location_updated_at
       if should_replace_location
@@ -53,8 +60,8 @@ class User < ActiveRecord::Base
   end
 
   def avatar_url
-    if uid
-      "http://graph.facebook.com/#{uid}/picture"
+    if accounts.facebook.present?
+      "http://graph.facebook.com/#{accounts.facebook.first.uid}/picture"
     else
       # fallback
       "http://img.brothersoft.com/icon/softimage/r/ruby-120627.jpeg"

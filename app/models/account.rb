@@ -3,7 +3,10 @@ class Account < ActiveRecord::Base
 
   attr_accessible :provider, :uid
 
-  LOCATION_PROVIDERS = %w(foursquare)
+  LOCATION_PROVIDERS = %w(foursquare facebook)
+
+  scope :facebook, where(:provider => 'facebook')
+  scope :foursquare, where(:provider => 'foursquare')
 
   def self.from_omniauth(user, auth)
     raise "user required" unless user
@@ -22,6 +25,7 @@ class Account < ActiveRecord::Base
   end
 
   def get_location
+    return unless provider == 'foursquare'
     client = Foursquare2::Client.new(oauth_token: token)
 
     latest_checkins = client.user('self').checkins(limit: 1)
@@ -38,5 +42,13 @@ class Account < ActiveRecord::Base
     else
       nil
     end
+  end
+
+  def provider_name
+    provider.titleize
+  end
+
+  def userpage_url
+    Settings.send(provider).userpage.gsub(':uid', uid)
   end
 end
