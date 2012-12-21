@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def new
-    redirect_to "/auth/facebook"
+    redirect_to root_path, :alert => "Bad provider!"
   end
 
   def create

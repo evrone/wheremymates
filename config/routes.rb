@@ -1,10 +1,10 @@
 WhereMyMates::Application.routes.draw do
   root :to => 'main#index'
 
+  get 'auth/:id' => 'sessions#new', :as => 'auth'
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
   match 'signout', to: 'sessions#destroy', as: 'signout'
-  match 'signin', to: 'sessions#new', as: 'signin'
 
   resources :users, :only => :show
   resource :user, :only => [:edit, :update] do

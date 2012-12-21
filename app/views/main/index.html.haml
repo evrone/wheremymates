@@ -27,7 +27,8 @@
 
     .span3.sidebar-promo.top-teams
       - unless current_user
-        = link_to(image_tag("http://likeitpages.com/images/fb-connect-large.png"), "/auth/facebook")
+        = link_to(image_tag("facebook_login_button.png"), auth_path(:facebook))
+        = link_to(image_tag("connect-foursquare.png"), auth_path(:foursquare))
         %br
         %br
 

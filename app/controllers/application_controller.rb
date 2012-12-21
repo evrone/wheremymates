@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
     return true if current_user
 
     set_after_sign_in_path(request.url)
-    redirect_to signin_path
+    redirect_to root_path, :notice => "Please log in"
   end
 
   def after_sign_in_path
