@@ -11,7 +11,6 @@ class User < ActiveRecord::Base
     def from_omniauth(auth)
       account = Account.where(auth.slice("uid", "provider")).first
       if account.present?
-        # Because we don't have facebook token yet =(
         account.update_column :token, auth[:credentials][:token]
         account.user
       else

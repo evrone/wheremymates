@@ -4,4 +4,4 @@
 # If you change this key, all old signed cookies will become invalid!
 # Make sure the secret is at least 30 characters and all random,
 # no regular words or you'll be exposed to dictionary attacks.
-WhereMyMates::Application.config.secret_token = '0e64d5b35e863aaeafe8fa5129f9908b4fcba375fb021b85a75ae2ac2513514d80908eab30ce7e59d204ec254d636278ec7ce7111b34d03cb2473c01651787d9'
+WhereMyMates::Application.config.secret_token = 'a5eb2eb4e41da684993064dd1295c16c24a723c635db258f95c5e0242ee32990b0d1c093287caf79d7d3614559e3311a63ab588a5237d97e8305db73abc58ac4'

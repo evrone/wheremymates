@@ -18,6 +18,7 @@ gem 'haml-rails'
 gem 'capistrano'
 gem 'airbrake'
 gem 'foursquare2'
+gem 'koala'
 gem 'settingslogic'
 gem 'whenever', :require => false
 
