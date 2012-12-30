@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121209185511) do
+ActiveRecord::Schema.define(:version => 20121230195246) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
@@ -24,6 +24,25 @@ ActiveRecord::Schema.define(:version => 20121209185511) do
 
   add_index "accounts", ["provider"], :name => "index_accounts_on_provider"
   add_index "accounts", ["user_id"], :name => "index_accounts_on_user_id"
+
+  create_table "checkins", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "account_id"
+    t.string   "uid"
+    t.string   "place"
+    t.string   "desc"
+    t.string   "link"
+    t.float    "latitude",   :null => false
+    t.float    "longitude",  :null => false
+    t.datetime "checked_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "checkins", ["account_id"], :name => "index_checkins_on_account_id"
+  add_index "checkins", ["checked_at"], :name => "index_checkins_on_checked_at"
+  add_index "checkins", ["uid"], :name => "index_checkins_on_uid"
+  add_index "checkins", ["user_id"], :name => "index_checkins_on_user_id"
 
   create_table "entries", :force => true do |t|
     t.integer  "team_id"

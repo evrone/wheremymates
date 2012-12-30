@@ -1,5 +1,6 @@
 class Account < ActiveRecord::Base
   belongs_to :user
+  has_many :checkins, :dependent => :destroy
 
   attr_accessible :provider, :uid
 

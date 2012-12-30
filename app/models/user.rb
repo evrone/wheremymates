@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :entries, :dependent => :destroy
   has_many :teams, :through => :entries
+  has_many :checkins, :dependent => :destroy, :order => 'checked_at desc'
 
   class << self
     def from_omniauth(auth)
@@ -43,6 +44,18 @@ class User < ActiveRecord::Base
 
   def account(provider)
     accounts.where(provider: provider).first
+  end
+
+  def last_checkin
+    @last_checkin ||= checkins.first
+  end
+
+  def latitude
+    last_checkin.try :latitude
+  end
+
+  def longitude
+    last_checkin.try :longitude
   end
 
   def update_location

@@ -163,8 +163,8 @@
         map: @map
         position: pos
         content: 'You are here!'
-      $.post "/user/update_geo",
-        user:
+      $.post "/checkins",
+        checkin:
           latitude: position.coords.latitude
           longitude: position.coords.longitude
       @renderMe()
