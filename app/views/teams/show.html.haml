@@ -14,4 +14,4 @@
 
 
 :javascript
-  #{render 'data.js', :embed => false}
+  #{render :partial => 'data', :formats => :js, :locals => {:embed => false}}

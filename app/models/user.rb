@@ -47,27 +47,17 @@ class User < ActiveRecord::Base
   end
 
   def last_checkin
-    @last_checkin ||= checkins.first
+    @last_checkin ||= checkins.first_or_initialize
   end
 
-  def latitude
-    last_checkin.try :latitude
-  end
-
-  def longitude
-    last_checkin.try :longitude
-  end
-
-  def place
-    last_checkin.try :place
-  end
+  delegate :latitude, :longitude, :place, :checked_at, :checkin_id, :to => :last_checkin
 
   def update_location
     return unless accounts.foursquare.any?
 
     location = accounts.foursquare.first.get_location
     if location
-      should_replace_location = last_checkin.nil? || location[:checked_at] > last_checkin.checked_at
+      should_replace_location = last_checkin.new_record? || location[:checked_at] > last_checkin.checked_at
       checkins.create location if should_replace_location
     end
   end

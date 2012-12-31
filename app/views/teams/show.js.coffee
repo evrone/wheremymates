@@ -10,7 +10,7 @@ unless jQuery?  # TODO: Add version checking, it must be >= 1.7
   """
 
 document.write '<%= javascript_include_tag javascript_url("gmap"), javascript_url("markerclusterer") %>'
-document.write '<%= javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true&libraries=geometry" %>'
+document.write '<%= javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true&libraries=geometry&language=en" %>'
 document.write """
   <script>
   (function($) {

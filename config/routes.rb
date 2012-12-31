@@ -8,7 +8,7 @@ WhereMyMates::Application.routes.draw do
 
   resources :users, :only => :show
   resource :user, :only => [:edit, :update]
-  resources :checkins, :only => :create
+  resources :checkins, :only => [:create, :update]
 
   match 'teams/:invitation_key/join', to: 'entries#create', :as => 'entry'
   resources :teams, only: [:index, :new, :show, :create] do

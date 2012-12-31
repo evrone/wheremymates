@@ -31,11 +31,11 @@
         .navbar-inner
           %div{class: (controller_name == "main" ? "container" : "container-fluid" )}
             .copyright
-              &copy; #{link_to "Evrone.com", "http://evrone.com", target: "_blank"} 2012
+              &copy; #{link_to "Evrone.com", "http://evrone.com", target: "_blank"} 2012 - 2013
     #modals
     /
       Javascripts
       \==================================================
     / Placed at the end of the document so the pages load faster
     = javascript_include_tag "application"
-    = javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true&libraries=geometry"
+    = javascript_include_tag "https://maps.google.com/maps/api/js?sensor=true&libraries=geometry&language=en"

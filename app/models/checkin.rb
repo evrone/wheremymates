@@ -5,4 +5,8 @@ class Checkin < ActiveRecord::Base
   attr_accessible :uid, :latitude, :longitude, :checked_at, :place, :desc, :link
 
   validates :latitude, :longitude, :presence => true
+
+  def checkin_id
+    id
+  end
 end

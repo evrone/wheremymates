@@ -126,7 +126,11 @@
 
     handlePlace: (mate, results, status) ->
       if status == google.maps.GeocoderStatus.OK
-        @renderPlace mate, @checkPlace(results[0].address_components)
+        place =  @checkPlace(results[0].address_components)
+        @renderPlace mate, place
+        $.post "/checkins/#{mate.checkin_id}",
+          _method: 'put'
+          place: place
       if nextmate = @geocodeQueue.pop()
         setTimeout =>
           @geocodeMate(nextmate)
