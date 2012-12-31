@@ -109,11 +109,12 @@
       for mate in @mates
         if mate.latitude && mate.longitude
           elem = mate.elem
-          if n > 1
-            @geocodeQueue.push(mate)
-          else
-            @geocodeMate(mate)
-          n++
+          unless @renderPlace(mate, mate.place)
+            if n > 1
+              @geocodeQueue.push(mate)
+            else
+              @geocodeMate(mate)
+            n++
           if mate.id == @me.id
           else
             if @me && @me.geo
@@ -121,19 +122,20 @@
               @renderDiff(elem, distance_km)
 
     geocodeMate: (mate) ->
-      @geocoder.geocode {location: mate.geo}, @renderPlace.bind(this, mate)
+      @geocoder.geocode {location: mate.geo}, @handlePlace.bind(this, mate)
 
-    renderPlace: (mate, results, status) ->
+    handlePlace: (mate, results, status) ->
       if status == google.maps.GeocoderStatus.OK
-        place_name = @checkPlace(results[0].address_components)
-        if place_name?
-          place = mate.elem.find('.place')
-          place.text(place_name)
+        @renderPlace mate, @checkPlace(results[0].address_components)
       if nextmate = @geocodeQueue.pop()
         setTimeout =>
           @geocodeMate(nextmate)
         , 1000
 
+    renderPlace: (mate, place_name) ->
+      if place_name?
+        place = mate.elem.find('.place')
+        place.text(place_name)
 
     checkPlace: (address) ->
       places_list = ['country', 'administrative_area_level_1',
