@@ -1,0 +1,12 @@
+
+<% if !embed && current_user && current_user.part_of?(current_team) %>
+window.current_user = <%== current_user.as_json(userdata_hash).to_json %>;
+window.request_geo = <%== request_geo?.to_json %>;
+<% end %>
+
+<% if current_team %>
+window.team = <%== current_team.as_json(:only => [:id, :name]).to_json %>;
+window.team_mates = <%== current_team.users.as_json(userdata_hash).to_json %>;
+<% end %>
+
+window.wmm_embed = <%== embed %>;

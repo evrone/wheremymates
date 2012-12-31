@@ -37,7 +37,7 @@ class Account < ActiveRecord::Base
         latitude: location.lat,
         longitude: location.lng,
         checked_at: Time.at(checkin.createdAt),
-        place: [location.city, location.country].join(', ')
+        place: [location.city, location.country].reject(&:blank).join(', ')
       }
     else
       nil

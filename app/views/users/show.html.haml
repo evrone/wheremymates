@@ -4,12 +4,22 @@
     = @user.name
 
 .container
-  %h3 Accounts
-  %ul
-    - @user.accounts.each do |account|
-      %li= link_to account.provider_name, account.userpage_url
+  .row
+    .span4
+      %h3 Accounts
+      %ul
+        - @user.accounts.each do |account|
+          %li= link_to account.provider_name, account.userpage_url
 
-  %h3 Teams
-  %ul
-    - @user.teams.each do |team|
-      %li= link_to team.name, team
+      %h3 Teams
+      %ul
+        - @user.teams.each do |team|
+          %li= link_to team.name, team
+
+    .span8
+      %h3 Last Checkins
+      %ul
+        - @user.checkins.each do |checkin|
+          %li
+            =l checkin.checked_at, :format => :short
+            = checkin.place

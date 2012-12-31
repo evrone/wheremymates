@@ -58,6 +58,10 @@ class User < ActiveRecord::Base
     last_checkin.try :longitude
   end
 
+  def place
+    last_checkin.try :place
+  end
+
   def update_location
     return unless accounts.foursquare.any?
 
