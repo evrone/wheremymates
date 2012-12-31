@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
     location = accounts.foursquare.first.get_location
     if location
       should_replace_location = last_checkin.nil? || location[:checked_at] > last_checkin.checked_at
-      user.checkins.create location if should_replace_location
+      checkins.create location if should_replace_location
     end
   end
 
