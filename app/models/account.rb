@@ -27,41 +27,45 @@ class Account < ActiveRecord::Base
     end
   end
 
-  def get_location
-    return unless provider.foursquare?
-    client = Foursquare2::Client.new(oauth_token: token)
-
-    latest_checkins = client.user('self').checkins(limit: 1)
-    if latest_checkins.try(:items)
-      checkin = latest_checkins.items.first
-      location = checkin.venue.location
-      {
-        latitude: location.lat,
-        longitude: location.lng,
-        checked_at: Time.at(checkin.createdAt),
-        place: [location.city, location.country].reject(&:blank?).join(', ')
-      }
-    else
-      nil
-    end
-  end
-
   def import_locations
     if provider.foursquare?
-      # TODO: foursquare feed load
+      client = Foursquare2::Client.new(oauth_token: token)
+      data = client.user_checkins
+      if data.items.present?
+        data.items.map do |item|
+          begin
+            checkins.where(uid: item.id, user_id: user_id).first_or_create do |checkin|
+              location = item.venue.location
+              checkin.latitude = location.lat
+              checkin.longitude = location.lng
+              checkin.checked_at = Time.at item.createdAt
+              checkin.place = [location.city, location.country].reject(&:blank?).join(', ')
+              checkin.desc = item.shout || item.venue.name
+              checkin.link = item.venue.canonicalUrl
+            end
+          rescue
+            false
+          end
+        end
+      end
     elsif provider.facebook?
-      @graph = Koala::Facebook::API.new(token)
-      feed = @graph.get_connections("me", "feed", with: 'location')
-      if feed.present?
-        feed.map do |post|
-          checkins.where(:uid => post['id'], :user_id => user_id).first_or_create do |checkin|
-            location = post['place']['location']
-            checkin.latitude = location['latitude']
-            checkin.longitude = location['longitude']
-            checkin.checked_at = post['created_time']
-            checkin.place = [location['city'], location['country']].reject(&:blank?).join(', ')
-            checkin.desc = post['story']
-            checkin.link = post['actions'].first['link']
+      graph = Koala::Facebook::API.new(token)
+      data = graph.get_connections("me", "feed", with: 'location')
+      if data.present?
+        data.map do |post|
+          begin
+            post = Hashie::Mash.new(post)
+            checkins.where(uid: post.id, user_id: user_id).first_or_create do |checkin|
+              location = post.place.location
+              checkin.latitude = location.latitude
+              checkin.longitude = location.longitude
+              checkin.checked_at = post.created_time
+              checkin.place = [location.city, location.country].reject(&:blank?).join(', ')
+              checkin.desc = post.story
+              checkin.link = post.actions.first.link
+            end
+          rescue
+            false
           end
         end
       end

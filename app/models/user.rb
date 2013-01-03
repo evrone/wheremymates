@@ -52,16 +52,6 @@ class User < ActiveRecord::Base
 
   delegate :latitude, :longitude, :place, :checked_at, :checkin_id, :to => :last_checkin
 
-  def update_location
-    return unless accounts.foursquare.any?
-
-    location = accounts.foursquare.first.get_location
-    if location
-      should_replace_location = last_checkin.new_record? || location[:checked_at] > last_checkin.checked_at
-      checkins.create location if should_replace_location
-    end
-  end
-
   def avatar_url
     if accounts.facebook.present?
       "http://graph.facebook.com/#{accounts.facebook.first.uid}/picture"

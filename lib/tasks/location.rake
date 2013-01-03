@@ -1,5 +1,5 @@
 desc "Update location from 4square"
 task "app:location" => :environment do
-  User.find_each(&:update_location)
+  Account.find_each(&:import_locations)
   puts "[#{Time.now}] DONE"
 end
