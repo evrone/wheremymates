@@ -50,7 +50,7 @@ class Account < ActiveRecord::Base
       end
     elsif provider.facebook?
       graph = Koala::Facebook::API.new(token)
-      data = graph.get_connections("me", "feed", with: 'location')
+      data = graph.get_connections("me", "feed", with: 'location') rescue nil
       if data.present?
         data.map do |post|
           begin
