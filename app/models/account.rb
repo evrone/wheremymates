@@ -1,6 +1,6 @@
 class Account < ActiveRecord::Base
   belongs_to :user
-  has_many :checkins, :dependent => :destroy
+  has_many :checkins, :dependent => :destroy, :order => 'checked_at desc'
 
   attr_accessible :provider, :uid
 
@@ -8,6 +8,8 @@ class Account < ActiveRecord::Base
 
   scope :facebook, where(:provider => 'facebook')
   scope :foursquare, where(:provider => 'foursquare')
+
+  validates :provider, presence: true, inclusion: {in: LOCATION_PROVIDERS}
 
   def self.from_omniauth(user, auth)
     raise "user required" unless user
@@ -26,7 +28,7 @@ class Account < ActiveRecord::Base
   end
 
   def get_location
-    return unless provider == 'foursquare'
+    return unless provider.foursquare?
     client = Foursquare2::Client.new(oauth_token: token)
 
     latest_checkins = client.user('self').checkins(limit: 1)
@@ -37,11 +39,37 @@ class Account < ActiveRecord::Base
         latitude: location.lat,
         longitude: location.lng,
         checked_at: Time.at(checkin.createdAt),
-        place: [location.city, location.country].reject(&:blank).join(', ')
+        place: [location.city, location.country].reject(&:blank?).join(', ')
       }
     else
       nil
     end
+  end
+
+  def import_locations
+    if provider.foursquare?
+      # TODO: foursquare feed load
+    elsif provider.facebook?
+      @graph = Koala::Facebook::API.new(token)
+      feed = @graph.get_connections("me", "feed", with: 'location')
+      if feed.present?
+        feed.map do |post|
+          checkins.where(:uid => post['id'], :user_id => user_id).first_or_create do |checkin|
+            location = post['place']['location']
+            checkin.latitude = location['latitude']
+            checkin.longitude = location['longitude']
+            checkin.checked_at = post['created_time']
+            checkin.place = [location['city'], location['country']].reject(&:blank?).join(', ')
+            checkin.desc = post['story']
+            checkin.link = post['actions'].first['link']
+          end
+        end
+      end
+    end
+  end
+
+  def provider
+    super.inquiry
   end
 
   def provider_name
