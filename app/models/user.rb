@@ -12,7 +12,7 @@ class User < ActiveRecord::Base
     def from_omniauth(auth)
       account = Account.where(auth.slice("uid", "provider")).first
       if account.present?
-        account.update_column :token, auth[:credentials][:token]
+        account.update_attributes token: auth[:credentials][:token], expires_at: Time.at(auth[:credentials][:expires_at])
         account.user
       else
         create_from_omniauth(auth)

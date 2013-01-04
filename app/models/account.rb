@@ -2,12 +2,13 @@ class Account < ActiveRecord::Base
   belongs_to :user
   has_many :checkins, :dependent => :destroy, :order => 'checked_at desc', :extend => CheckinAssociationExtensions
 
-  attr_accessible :provider, :uid
+  attr_accessible :provider, :uid, :token, :expires_at
 
   LOCATION_PROVIDERS = %w(foursquare facebook)
 
   scope :facebook, where(:provider => 'facebook')
   scope :foursquare, where(:provider => 'foursquare')
+  scope :near_expiring, ->{ where 'expires_at is null or expires_at < ?', Time.now + 1.hour }
 
   validates :provider, presence: true, inclusion: {in: LOCATION_PROVIDERS}
 
@@ -24,6 +25,7 @@ class Account < ActiveRecord::Base
       account.uid = auth[:uid]
       account.provider = auth[:provider]
       account.token = auth[:credentials][:token]
+      account.expires_at = Time.at(auth[:credentials][:expires_at])
     end
   end
 
@@ -36,6 +38,14 @@ class Account < ActiveRecord::Base
       graph = Koala::Facebook::API.new(token)
       data = graph.get_connections("me", "feed", with: 'location') rescue nil
       checkins.create_for_facebook(data)
+    end
+  end
+
+  def extend_facebook_token
+    return unless provider.facebook?
+    oauth = Koala::Facebook::OAuth.new Settings.facebook.key, Settings.facebook.secret
+    if access_token = oauth.exchange_access_token(token)
+      update_attributes token: access_token, expires_at: Time.now + 30.days
     end
   end
 

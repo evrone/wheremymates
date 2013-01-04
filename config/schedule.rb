@@ -6,3 +6,7 @@ job_type :rake, "cd :path && RAILS_ENV=:environment #{ruby_path} bin/rake :task 
 every 30.minutes do
   rake "app:location"
 end
+
+every 30.minutes do
+  rake 'app:extend_facebook_tokens'
+end
