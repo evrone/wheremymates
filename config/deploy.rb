@@ -10,7 +10,6 @@ set :whenever_command, "bin/whenever"
 ssh_options[:forward_agent] = true
 
 require 'bundler/capistrano'
-require 'capistrano_colors'
 
 set :application, "wheremymates"
 set :rails_env, "production"
