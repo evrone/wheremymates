@@ -20,7 +20,7 @@ gem 'airbrake'
 gem 'foursquare2'
 gem 'koala'
 gem 'settingslogic'
-gem 'whenever', :require => false
+gem 'whenever', '0.8.0', :require => false
 
 gem 'libv8'
 gem "therubyracer"
