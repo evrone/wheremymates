@@ -1,0 +1,12 @@
+.checkins{
+  li{
+    padding: 10px;
+    border-top: 1px solid #eee;
+    .logo {
+      height: 48px;
+      width: 48px;
+      float: left;
+      margin: 0 10px 5px 0;
+    }
+  }
+}

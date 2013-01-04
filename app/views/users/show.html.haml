@@ -5,7 +5,7 @@
 
 .container
   .row
-    .span4
+    .span2
       %h3 Accounts
       %ul
         - @user.accounts.each do |account|
@@ -16,10 +16,20 @@
         - @user.teams.each do |team|
           %li= link_to team.name, team
 
-    .span8
+    .span5
       %h3 Last Checkins
-      %ul
-        - @user.checkins.each do |checkin|
+      %ul.checkins.unstyled
+        - @user.checkins.limit(30).each do |checkin|
           %li
-            =l checkin.checked_at, :format => :short
-            = checkin.place
+            = checkin_logo(checkin)
+            %span.time=l checkin.checked_at, :format => :short
+            %br
+            %span.desc= checkin.desc
+            %br
+            - if checkin.link.present?
+              %span.link
+                = link_to checkin.link do
+                  %i.icon-share
+            %span.place= checkin.place
+
+    .span5
