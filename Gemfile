@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.9'
+gem 'rails', '3.2.10'
 
 gem 'mysql2'
 gem 'unicorn'
@@ -20,6 +20,8 @@ gem 'airbrake'
 gem 'foursquare2'
 gem 'koala'
 gem 'settingslogic'
+
+# In v0.8.1 there is bug, when capistrano try to run whenever commands as my local user, not deploy
 gem 'whenever', '0.8.0', :require => false
 
 gem 'libv8'
@@ -34,4 +36,5 @@ group :development do
   gem 'capistrano-mountaintop'
   gem 'dev_must_have', github: 'evrone/dev_must_have'
   gem 'quiet_assets'
+  gem 'commands'
 end
