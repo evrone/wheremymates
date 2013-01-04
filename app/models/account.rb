@@ -43,7 +43,7 @@ class Account < ActiveRecord::Base
 
   def extend_facebook_token
     return unless provider.facebook?
-    return if token.empty?
+    return if token.blank?
     oauth = Koala::Facebook::OAuth.new Settings.facebook.key, Settings.facebook.secret
     if access_token = oauth.exchange_access_token(token)
       update_attributes token: access_token, expires_at: Time.now + 30.days

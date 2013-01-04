@@ -1,6 +1,6 @@
 module CheckinAssociationExtensions
   def create_for_foursquare(data)
-    return if data.empty?
+    return if data.blank?
     data.map do |item|
       begin
         where(uid: item.id, user_id: account.user_id).first_or_create do |checkin|
@@ -19,7 +19,7 @@ module CheckinAssociationExtensions
   end
 
   def create_for_facebook(data)
-    return if data.empty?
+    return if data.blank?
     data.map do |post|
       begin
         post = Hashie::Mash.new(post)
