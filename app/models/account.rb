@@ -25,7 +25,7 @@ class Account < ActiveRecord::Base
       account.uid = auth[:uid]
       account.provider = auth[:provider]
       account.token = auth[:credentials][:token]
-      account.expires_at = Time.at(auth[:credentials][:expires_at])
+      account.expires_at = Time.at(auth[:credentials][:expires_at]) if account.provider.facebook?
     end
   end
 
