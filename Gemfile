@@ -22,6 +22,7 @@ gem 'koala'
 gem 'settingslogic'
 gem 'whenever', :require => false
 
+gem 'libv8'
 gem "therubyracer"
 gem "less-rails"
 gem "twitter-bootstrap-rails"
