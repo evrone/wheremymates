@@ -1,6 +1,6 @@
 class Account < ActiveRecord::Base
   belongs_to :user
-  has_many :checkins, :dependent => :destroy, :order => 'checked_at desc'
+  has_many :checkins, :dependent => :destroy, :order => 'checked_at desc', :extend => CheckinAssociationExtensions
 
   attr_accessible :provider, :uid
 
@@ -31,44 +31,11 @@ class Account < ActiveRecord::Base
     if provider.foursquare?
       client = Foursquare2::Client.new(oauth_token: token)
       data = client.user_checkins
-      if data.items.present?
-        data.items.map do |item|
-          begin
-            checkins.where(uid: item.id, user_id: user_id).first_or_create do |checkin|
-              location = item.venue.location
-              checkin.latitude = location.lat
-              checkin.longitude = location.lng
-              checkin.checked_at = Time.at item.createdAt
-              checkin.place = [location.city, location.country].reject(&:blank?).join(', ')
-              checkin.desc = item.shout || item.venue.name
-              checkin.link = item.venue.canonicalUrl
-            end
-          rescue
-            false
-          end
-        end
-      end
+      checkins.create_for_foursquare(data.items)
     elsif provider.facebook?
       graph = Koala::Facebook::API.new(token)
       data = graph.get_connections("me", "feed", with: 'location') rescue nil
-      if data.present?
-        data.map do |post|
-          begin
-            post = Hashie::Mash.new(post)
-            checkins.where(uid: post.id, user_id: user_id).first_or_create do |checkin|
-              location = post.place.location
-              checkin.latitude = location.latitude
-              checkin.longitude = location.longitude
-              checkin.checked_at = post.created_time
-              checkin.place = [location.city, location.country].reject(&:blank?).join(', ')
-              checkin.desc = post.story
-              checkin.link = post.actions.first.link
-            end
-          rescue
-            false
-          end
-        end
-      end
+      checkins.create_for_facebook(data)
     end
   end
 
