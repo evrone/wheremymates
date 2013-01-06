@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
     if current_user
       Account.from_omniauth(current_user, auth)
       flash.notice = "#{auth[:provider]} account added."
+      set_after_sign_in_path(edit_user_path)
     else
       user = User.from_omniauth(auth)
 

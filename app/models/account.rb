@@ -16,7 +16,12 @@ class Account < ActiveRecord::Base
     raise "user required" unless user
     raise "#{auth[:provider]} is not a location provider" unless LOCATION_PROVIDERS.include?(auth[:provider])
 
-    where(auth.slice("provider", "uid")).first || create_from_omniauth(user, auth)
+    account = where(auth.slice("provider", "uid")).first || create_from_omniauth(user, auth)
+    if account.user.nil?
+      account.update_column :user_id, user.id
+    elsif account.user != user.id
+      user.merge(account.user)
+    end
   end
 
   def self.create_from_omniauth(user, auth)

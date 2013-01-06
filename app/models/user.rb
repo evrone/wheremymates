@@ -32,6 +32,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def merge(another_user)
+    self.accounts += another_user.accounts
+    self.entries += another_user.entries
+  end
+
   def part_of?(team)
     team_ids.include? team.id if team.present?
   end

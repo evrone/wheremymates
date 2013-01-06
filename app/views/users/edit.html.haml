@@ -1,2 +1,11 @@
-.well
-  You'll get ability to edit your profile later!
+.container
+  %h3 Accounts
+  %ul
+    - @user.accounts.each do |account|
+      %li= link_to account.provider_name, account.userpage_url
+
+
+  %h3 Add More Accounts
+  %ul
+    %li= link_to "Add Facebook account", auth_path(:facebook)
+    %li= link_to "Add Foursquare account", auth_path(:foursquare)
