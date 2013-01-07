@@ -9,6 +9,11 @@ defaults: &defaults
     secret: "8a1bb09b869e4cf37318fa1b29b3652a"
     userpage: "http://facebook.com/:uid"
 
+  twitter:
+    key: "4xM22OmDisiVANPbDPyFA"
+    secret: "2IV2C5qz6wTlkzKPnue1IrBlfeQuB4vMPiwYSjUTo"
+    userpage: "https://twitter.com/account/redirect_by_id?id=:uid"
+
   host: "wheremymates.dev"
 
 development:
@@ -28,5 +33,10 @@ production:
     key: "187683721368319"
     secret: "86ff11f9d5eea3cf1dd2992736581668"
     userpage: "http://facebook.com/:uid"
+
+  twitter:
+    key: "GmAbR0ADOFB6upYe1Ui3ZQ"
+    secret: "6ZWUfH55sqG3trBNADQIeo6VW6B5c28m3bjPBmvGYg"
+    userpage: "https://twitter.com/account/redirect_by_id?id=:uid"
 
   host: "wheremymates.com"

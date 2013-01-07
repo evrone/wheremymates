@@ -4,10 +4,11 @@ class Account < ActiveRecord::Base
 
   attr_accessible :provider, :uid, :token, :expires_at
 
-  LOCATION_PROVIDERS = %w(foursquare facebook)
+  LOCATION_PROVIDERS = %w(foursquare facebook twitter)
 
   scope :facebook, where(:provider => 'facebook')
   scope :foursquare, where(:provider => 'foursquare')
+  scope :twitter, where(:provider => 'twitter')
   scope :near_expiring, ->{ where 'expires_at is null or expires_at < ?', Time.now + 1.hour }
 
   validates :provider, presence: true, inclusion: {in: LOCATION_PROVIDERS}

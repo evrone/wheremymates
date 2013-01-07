@@ -31,6 +31,7 @@ gem "twitter-bootstrap-rails"
 
 gem 'omniauth-foursquare'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 group :development do
   gem 'capistrano-mountaintop'
