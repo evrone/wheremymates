@@ -19,6 +19,7 @@ gem 'capistrano'
 gem 'airbrake'
 gem 'foursquare2'
 gem 'koala'
+gem 'twitter'
 gem 'settingslogic'
 
 # In v0.8.1 there is bug, when capistrano try to run whenever commands as my local user, not deploy

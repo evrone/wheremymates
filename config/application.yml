@@ -13,6 +13,8 @@ defaults: &defaults
     key: "4xM22OmDisiVANPbDPyFA"
     secret: "2IV2C5qz6wTlkzKPnue1IrBlfeQuB4vMPiwYSjUTo"
     userpage: "https://twitter.com/account/redirect_by_id?id=:uid"
+    token: "197304568-EQH0OJnEe0AfPsxt4laDN8319kNXBGSRHcItBsxI"
+    token_secret: "2dJKZmDA3ffZdX33DOAx2Ww356OXbbBR99kTGTEtM"
 
   host: "wheremymates.dev"
 
@@ -38,5 +40,7 @@ production:
     key: "GmAbR0ADOFB6upYe1Ui3ZQ"
     secret: "6ZWUfH55sqG3trBNADQIeo6VW6B5c28m3bjPBmvGYg"
     userpage: "https://twitter.com/account/redirect_by_id?id=:uid"
+    token: "197304568-GSun6ZLHmTZDtCE8frLMih7WWf1gVjo7FalJRjm5"
+    token_secret: "3498V4AT0FAS8nLxT0pdGy1tAYH4pkShfFgU40ALJc"
 
   host: "wheremymates.com"

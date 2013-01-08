@@ -11,16 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130104142058) do
+ActiveRecord::Schema.define(:version => 20130108132315) do
 
   create_table "accounts", :force => true do |t|
     t.integer  "user_id"
     t.string   "provider"
     t.string   "uid"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "token",      :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "token",       :null => false
     t.datetime "expires_at"
+    t.string   "last_access"
   end
 
   add_index "accounts", ["expires_at"], :name => "index_accounts_on_expires_at"

@@ -3,4 +3,5 @@ Airbrake.configure do |config|
   config.host    = 'errbit.vm.evrone.ru'
   config.port    = 80
   config.secure  = config.port == 443
+  config.rescue_rake_exceptions = true
 end

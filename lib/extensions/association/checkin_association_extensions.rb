@@ -38,6 +38,26 @@ module CheckinAssociationExtensions
     end
   end
 
+  def create_for_twitter(data)
+    return if data.blank?
+    account.update_attribute :last_access, data.first['id']
+    data.map do |tweet|
+      begin
+        tweet = Hashie::Mash.new(tweet.to_hash)
+        if tweet.coordinates.present?
+          c = where(uid: tweet.id, user_id: account.user_id).first_or_create do |checkin|
+            location = tweet.coordinates.coordinates
+            checkin.latitude = location.last
+            checkin.longitude = location.first
+            checkin.checked_at = tweet.created_at
+            checkin.desc = tweet.text
+            checkin.link = "https://twitter.com/#{account.uid}/status/#{checkin.uid}"
+          end
+        end
+      end
+    end
+  end
+
   def account
     proxy_association.owner
   end

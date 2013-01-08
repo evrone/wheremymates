@@ -13,25 +13,41 @@ class Account < ActiveRecord::Base
 
   validates :provider, presence: true, inclusion: {in: LOCATION_PROVIDERS}
 
-  def self.from_omniauth(user, auth)
-    raise "user required" unless user
-    raise "#{auth[:provider]} is not a location provider" unless LOCATION_PROVIDERS.include?(auth[:provider])
+  class << self
+    def from_omniauth(user, auth)
+      raise "user required" unless user
+      raise "#{auth[:provider]} is not a location provider" unless LOCATION_PROVIDERS.include?(auth[:provider])
 
-    account = where(auth.slice("provider", "uid")).first || create_from_omniauth(user, auth)
-    if account.user.nil?
-      account.update_column :user_id, user.id
-    elsif account.user != user.id
-      user.merge(account.user)
+      account = where(auth.slice("provider", "uid")).first || create_from_omniauth(user, auth)
+      if account.user.nil?
+        account.update_column :user_id, user.id
+      elsif account.user != user.id
+        user.merge(account.user)
+      end
     end
-  end
 
-  def self.create_from_omniauth(user, auth)
-    create! do |account|
-      account.user = user
-      account.uid = auth[:uid]
-      account.provider = auth[:provider]
-      account.token = auth[:credentials][:token]
-      account.expires_at = Time.at(auth[:credentials][:expires_at]) if account.provider.facebook?
+    def create_from_omniauth(user, auth)
+      create! do |account|
+        account.user = user
+        account.uid = auth[:uid]
+        account.provider = auth[:provider]
+        account.token = auth[:credentials][:token]
+        account.expires_at = Time.at(auth[:credentials][:expires_at]) if account.provider.facebook?
+      end
+    end
+
+    def import_foursquare
+      foursquare.find_each(&:import_locations)
+    end
+
+    def import_facebook
+      facebook.find_each(&:import_locations)
+    end
+
+    def import_twitter
+      twitter.order(:updated_at).each(&:import_locations)
+    rescue Twitter::Error::TooManyRequests => error
+      false
     end
   end
 
@@ -44,6 +60,11 @@ class Account < ActiveRecord::Base
       graph = Koala::Facebook::API.new(token)
       data = graph.get_connections("me", "feed", with: 'location') rescue nil
       checkins.create_for_facebook(data)
+    elsif provider.twitter?
+      params = {count: 200, trim_user: true}
+      params.merge! since_id: last_access if last_access.present?
+      data = Twitter.user_timeline uid.to_i, params
+      checkins.create_for_twitter(data)
     end
   end
 

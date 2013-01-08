@@ -1,7 +1,12 @@
 desc "Update location from 4square"
 task "app:location" => :environment do
-  puts "Start app:location"
-  Account.find_each(&:import_locations)
+  puts "Importing Foursquare"
+  Account.import_foursquare
+  puts "Importing Facebook"
+  Account.import_facebook
+  puts "Importing Twitter"
+  Account.import_twitter
+
   puts "[#{Time.now}] DONE\n\n"
 end
 
