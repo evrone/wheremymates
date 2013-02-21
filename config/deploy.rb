@@ -31,7 +31,7 @@ require "whenever/capistrano"
 namespace :deploy do
   desc "Restart Unicorn and Resque"
   task :restart do
-    run "sv restart ~/services/#{application}_unicorn"
+    run "sv restart ~/services/enabled/#{application}_unicorn"
     #run "sv restart ~/services/#{application}_resque"
   end
 
