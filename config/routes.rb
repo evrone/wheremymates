@@ -1,6 +1,5 @@
 WhereMyMates::Application.routes.draw do
   root :to => 'main#index'
-  get 'error' => 'main#error'
 
   get 'auth/:id' => 'sessions#new', :as => 'auth'
   match 'auth/:provider/callback', to: 'sessions#create'
