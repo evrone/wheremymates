@@ -1,4 +1,9 @@
-load 'deploy'
-# Uncomment if you are using Rails' asset pipeline
-    # load 'deploy/assets'
-load 'config/deploy' # remove this line to skip loading any of the default tasks
+require "capistrano_evrone_recipes/capistrano"
+
+set :repository, "git@github.com:evrone/wheremymates.git"
+set :application, "wheremymates"
+set :user, 'wheremymates'
+set :branch, 'new_deploy'
+
+server 'wheremymates@146.185.128.142', :web, :app, :worker, :crontab
+role :db, 'wheremymates@146.185.128.142', primary: true
